@@ -13,7 +13,7 @@ def _crop_matrix(cx, cy, side, T):
 
 
 def plan(tracks, n, W, H, tile=512, crop_factor=2.6, context=False, min_mag=1.4, max_side_frac=0.95, context_scale=1.0,
-         max_mag=12.0):
+         max_mag=12.0, tile_budget=True):
     """assign tracks to slots. Returns dict layout."""
     shots = sorted({t["shot"] for t in tracks})
     by_shot = {}
@@ -30,6 +30,11 @@ def plan(tracks, n, W, H, tile=512, crop_factor=2.6, context=False, min_mag=1.4,
     nslots = max([len(v) for v in by_shot.values()], default=0)
     if nslots == 0:
         return {"nslots": 0, "n": n, "W": W, "H": H}
+    if nslots > 2 and tile_budget:  # keep the face tokens near two full tiles: more faces -> smaller tiles
+        tile = max(256, int(tile * (2.0 / nslots) ** 0.5) // 32 * 32)
+        for ts in by_shot.values():
+            for t in ts:
+                t["side"] = np.clip(crop_factor * t["fs"], tile / max_mag, max_side_frac * min(W, H))
     if context:  # frame (optionally downscaled) on top, tiles in a row below it
         Wc, Hc = int(round(W * context_scale / 32)) * 32, int(round(H * context_scale / 32)) * 32
         T = tile

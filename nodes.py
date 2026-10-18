@@ -52,7 +52,7 @@ class H3FaceAtlas:
                           context_scale=context_scale)
         rep = [f"{n} frames {W}x{H}, shots at {starts}, {len(tr)} tracks, {lay['nslots']} slots"]
         for t in tr:
-            mag = np.median(tile / t['side'][t['active']]) if 'side' in t else 0
+            mag = np.median(lay.get('T', tile) / t['side'][t['active']]) if 'side' in t else 0
             rep.append(f"  shot {t['shot']}: face ~{np.median(t['fs']):.0f}px found {t['found'].mean()*100:.0f}% "
                        f"frames {np.flatnonzero(t['active'])[0]+t['shot'][0]}-{np.flatnonzero(t['active'])[-1]+t['shot'][0]} x~{np.mean(t['cx']):.0f} mag {mag:.1f}x {'(skipped: big)' if 'side' not in t else ''}")
         if lay["nslots"] == 0:

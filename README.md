@@ -81,7 +81,11 @@ Example workflows: `example_workflows/h3_wide_face_fix.json` fixes any existing 
 ## Limitations
 
 - Faces under ~15 px are capped at 12x magnification. There is little a 15 px face can show at the output resolution.
-- Faces seen from behind, or not detected, are left as they are.
+- Faces seen from behind, or not detected, are left as they are. Faces on billboards and screens are faces too: they
+  get a slot and a light redraw (harmless), and with more than 2 slots every tile shrinks. Lower `max_faces` or raise
+  `min_magnification` if a big background face steals a slot.
+- More than 2 faces: tiles shrink to keep the token count near two full tiles (3 faces → 416 px, 4 → 352 px), so the
+  face pass costs about the same with 3–4 characters as with 2.
 - Mouths keep pass 1's open/closed timing (checked frame by frame), but the exact mouth shape is redrawn. At
   sigma 0.8 or more a long held-open mouth can come back flapping open and shut. Faces of ~55 px therefore get the
   lighter 0.70 redraw.
