@@ -82,6 +82,13 @@ def build_tracks(dets, starts, n, W, H, min_presence=0.1, max_faces=4, center_si
             found[1:-1] |= found[:-2] & found[2:]  # detection runs on every 2nd frame: bridge single-frame gaps
             # active only around where the face was actually seen (+handles for the fade); outside the slot is empty
             active = (full >= idx[0] - handle) & (full <= idx[-1] + handle)
-            tracks.append({"shot": (a, b), "cx": _smooth(cx, center_sigma), "cy": _smooth(cy, center_sigma),
-                           "fs": _smooth(fs, size_sigma), "found": found, "active": active})
+            # centre smoothing only where the face is slow: on a fast head (a spin, a whip turn) the smoothed path cuts
+            # the corner and the crop lands off the face, so there the (lightly smoothed) detections are followed
+            fsm = _smooth(fs, size_sigma)
+            speed = _smooth(np.hypot(np.gradient(cx), np.gradient(cy)), 1.0) / np.maximum(fsm, 1.0)  # face sizes / frame
+            w = np.clip((speed - 0.05) / 0.10, 0, 1)
+            scx = (1 - w) * _smooth(cx, center_sigma) + w * _smooth(cx, 0.7)
+            scy = (1 - w) * _smooth(cy, center_sigma) + w * _smooth(cy, 0.7)
+            tracks.append({"shot": (a, b), "cx": scx, "cy": scy, "fs": fsm, "found": found, "active": active,
+                           "speed": speed})
     return tracks

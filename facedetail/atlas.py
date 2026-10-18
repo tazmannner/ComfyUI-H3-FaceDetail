@@ -104,10 +104,48 @@ def _tile_mask(T, side, fs, mask_scale, feather):
     return cv2.GaussianBlur(m, (0, 0), k)
 
 
-def stitch(frames, refined, lay, mask_scale=1.5, feather=4.0, color_match=1.0, blend=1.0, fade_sigma=4.0):
+def fidelity(frames, refined, lay, res=40, full=1.8, zero=2.5):
+    """Per track, per frame weight in [0,1]: did the redraw only add detail, or did it reinvent the head?
+    Compares the redrawn tile with the original crop at ~on-screen resolution (res px per tile, blurred) inside the
+    face ellipse. Frames whose difference is far above the track's own median (a spin, a back of the head, a motion-
+    blurred turn redrawn into a different face) fade back to the original: full weight up to `full` x the median,
+    none from `zero` x."""
+    from .track import _smooth
+    T = lay["T"]
+    yy, xx = np.mgrid[:res, :res]
+    ell = ((xx - res / 2) / (res * 0.29)) ** 2 + ((yy - res / 2) / (res * 0.32)) ** 2 < 1
+    d = {}
+    for k in range(lay["nslots"]):
+        ox, oy = lay["origin"][k]
+        for i in range(lay["n"]):
+            e = lay["slots"][k][i]
+            if e is None:
+                continue
+            t, j = e
+            M = _crop_matrix(t["cx"][j], t["cy"][j], t["side"][j], T)
+            orig = cv2.warpAffine(frames[i], M, (T, T), flags=cv2.INTER_LINEAR | cv2.WARP_INVERSE_MAP,
+                                  borderMode=cv2.BORDER_REPLICATE)
+            a = cv2.GaussianBlur(cv2.resize(orig, (res, res), interpolation=cv2.INTER_AREA), (0, 0), 1.0)
+            b = cv2.GaussianBlur(cv2.resize(refined[i, oy:oy + T, ox:ox + T].astype(np.float32), (res, res),
+                                            interpolation=cv2.INTER_AREA), (0, 0), 1.0)
+            arr = d.setdefault(id(t), (t, np.full(len(t["cx"]), np.nan)))[1]
+            arr[j] = float(np.abs(a - b)[ell].mean())
+    out = {}
+    for key, (t, arr) in d.items():
+        ok = np.isfinite(arr)
+        if ok.sum() < 8:
+            continue
+        ratio = arr / np.nanmedian(arr)
+        w = np.where(ok, np.clip(1 - (ratio - full) / (zero - full), 0, 1), 1.0)
+        out[key] = np.minimum(w, _smooth(w, 1.5))  # bad frames stay off, their neighbours ease in/out
+    return out
+
+
+def stitch(frames, refined, lay, mask_scale=1.5, feather=4.0, color_match=1.0, blend=1.0, fade_sigma=4.0, fidelity_gate=True):
     """frames (N,H,W,3), refined canvas (N,ch,cw,3) -> (N,H,W,3)"""
     out = frames.copy()
     n, T, W, H = lay["n"], lay["T"], lay["W"], lay["H"]
+    fid = fidelity(frames, refined, lay) if fidelity_gate else {}
     # per track colour transform (one per shot: no flicker), from the original vs refined tiles inside the mask
     stats = {}
     for k in range(lay["nslots"]):
@@ -146,6 +184,10 @@ def stitch(frames, refined, lay, mask_scale=1.5, feather=4.0, color_match=1.0, b
                 f = t["found"].astype(np.float64)
                 from .track import _smooth
                 t["fade"] = np.clip(_smooth(f, fade_sigma) * 2, 0, 1)
+                if "speed" in t:  # a head moving > ~1/3 of its size per frame is motion, not detail: keep the original
+                    t["fade"] = t["fade"] * np.clip(1 - (_smooth(t["speed"], 2.0) - 0.3) / 0.2, 0, 1)
+                if id(t) in fid:
+                    t["fade"] = t["fade"] * fid[id(t)]
             wgt = blend * t["fade"][j]
             s = max(8, int(round(side)))
             small = cv2.resize(tile, (s, s), interpolation=cv2.INTER_AREA if s < T else cv2.INTER_CUBIC)
@@ -162,7 +204,7 @@ def stitch(frames, refined, lay, mask_scale=1.5, feather=4.0, color_match=1.0, b
             pm = cv2.warpAffine(smask, M, (x1 - x0, y1 - y0), flags=cv2.INTER_LINEAR, borderMode=cv2.BORDER_CONSTANT) * wgt
             acc[y0:y1, x0:x1] += pt * pm[..., None]; wsum[y0:y1, x0:x1] += pm
             touched = True
-        if not touched:
+        if not touched or not (wsum > 0).any():  # every face of this frame faded out: frame stays as it was
             continue
         ys, xs = np.nonzero(wsum > 0)
         ya, yb, xa, xb = ys.min(), ys.max() + 1, xs.min(), xs.max() + 1

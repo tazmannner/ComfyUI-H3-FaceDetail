@@ -2443,7 +2443,7 @@
    ],
    "size": [
     380,
-    262
+    288
    ],
    "flags": {},
    "order": 20,
@@ -2482,7 +2482,8 @@
     1.5,
     3.0,
     1.0,
-    1.0
+    1.0,
+    true
    ],
    "title": "STITCH: faces back into the frames"
   },

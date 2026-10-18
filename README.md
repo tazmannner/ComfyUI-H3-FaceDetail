@@ -31,6 +31,10 @@ So the fix has to give faces more tokens. Re-rendering the whole frame bigger co
    starts at 0.95, because its tile begins as a soft blob that a shallow redraw keeps (it comes out soft or blocky).
 4. **H3 Face Atlas Stitch** warps each redrawn face back onto its sub-pixel crop box under a feathered ellipse. It
    applies one colour match per shot, which avoids flicker, and fades out where the face was lost.
+   A **fidelity gate** compares each redrawn face with the original at on-screen size. Where the redraw reinvented
+   the head instead of refining it, that frame keeps the original. Examples: a spin, the back of a head, a
+   motion-blurred turn. "Reinvented" means more than ~2x the track's usual difference.
+   On fast heads the crop follows the detections closely instead of a smoothed path, so it never lands beside the face.
 
 Faces that are already big on screen (close-ups) are skipped and pass through untouched. A clip with no small faces
 costs only the detection.
@@ -59,8 +63,10 @@ the render's audio, audio_mode *pin*) → SamplerCustomAdvanced (`sigmas` from H
 MiniMaxH3ImageToVideo cond uses the atlas `width` / `height` and the clip length) → VAEDecode → Stitch.
 Use the **same prompt and style LoRA** as the render.
 
-Example workflows: `example_workflows/h3_wide_face_fix.json` fixes any existing H3 video, and
-`h3_fast_derope_face.json` runs t2v → Fast De-rope → face fix → Anime Cadence.
+Example workflows:
+- `example_workflows/h3_wide_face_fix.json` fixes any existing H3 video.
+- `h3_fast_derope_face.json` runs t2v → Fast De-rope → face fix → Anime Cadence.
+- `h3_fast_derope_face_liveaction.json` is the same without the 2s drawings and Anime Cadence.
 
 ## Requirements
 

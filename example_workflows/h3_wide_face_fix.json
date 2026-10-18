@@ -963,7 +963,7 @@
    ],
    "size": [
     380,
-    262
+    288
    ],
    "flags": {},
    "order": 8,
@@ -1001,7 +1001,8 @@
     1.5,
     3.0,
     1.0,
-    1.0
+    1.0,
+    true
    ],
    "title": "STITCH: faces back into the frames"
   },
@@ -1074,7 +1075,7 @@
    "type": "VHS_VideoCombine",
    "pos": [
     3420,
-    362
+    388
    ],
    "size": [
     380,

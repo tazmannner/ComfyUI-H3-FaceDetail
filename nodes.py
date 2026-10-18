@@ -80,9 +80,12 @@ class H3FaceAtlasStitch:
             "feather": ("FLOAT", {"default": 3.0, "min": 0.5, "max": 20.0, "step": 0.5, "tooltip": "source pixels"}),
             "color_match": ("FLOAT", {"default": 1.0, "min": 0.0, "max": 1.0, "step": 0.05}),
             "blend": ("FLOAT", {"default": 1.0, "min": 0.0, "max": 1.0, "step": 0.05}),
+        }, "optional": {
+            "fidelity_gate": ("BOOLEAN", {"default": True, "tooltip": "keep the original on frames where the redraw "
+                              "reinvented the head (spins, back of the head, motion-blurred turns) instead of refining it"}),
         }}
 
-    def run(self, images, refined, atlas, mask_scale, feather, color_match, blend):
+    def run(self, images, refined, atlas, mask_scale, feather, color_match, blend, fidelity_gate=True):
         if atlas["nslots"] == 0:
             return (images,)
         fr = images.cpu().numpy().astype(np.float32)
@@ -91,7 +94,8 @@ class H3FaceAtlasStitch:
             raise ValueError(f"refined has {rf.shape[0]} frames, images {fr.shape[0]}")
         if rf.shape[1:3] != (atlas["ch"], atlas["cw"]):
             raise ValueError(f"refined is {rf.shape[2]}x{rf.shape[1]}, atlas canvas {atlas['cw']}x{atlas['ch']}")
-        out = atlas_mod.stitch(fr, rf, atlas, mask_scale=mask_scale, feather=feather, color_match=color_match, blend=blend)
+        out = atlas_mod.stitch(fr, rf, atlas, mask_scale=mask_scale, feather=feather, color_match=color_match, blend=blend,
+                                fidelity_gate=fidelity_gate)
         return (torch.from_numpy(out),)
 
 
