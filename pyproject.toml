@@ -2,6 +2,7 @@
 name = "comfyui-h3-facedetail"
 description = "Fixes mushy faces in MiniMax H3 wide shots: every small face is magnified into one atlas canvas (with the frame as pinned context) and redrawn in a single pass, then stitched back. Anime face detector via ONNX (CPU)."
 version = "0.1.0"
+license = { file = "LICENSE" }
 dependencies = ["onnxruntime", "opencv-python-headless"]
 
 [project.urls]
