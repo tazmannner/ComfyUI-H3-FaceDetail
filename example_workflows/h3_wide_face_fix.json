@@ -1,0 +1,1436 @@
+{
+ "last_node_id": 25,
+ "last_link_id": 34,
+ "nodes": [
+  {
+   "id": 1,
+   "type": "UNETLoader",
+   "pos": [
+    60,
+    60
+   ],
+   "size": [
+    380,
+    132
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      1
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "UNETLoader"
+   },
+   "widgets_values": [
+    "minimax_h3_fl2va_pruned_int8_convrot.safetensors",
+    "default"
+   ]
+  },
+  {
+   "id": 2,
+   "type": "CLIPLoader",
+   "pos": [
+    60,
+    232
+   ],
+   "size": [
+    380,
+    158
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "CLIP",
+     "type": "CLIP",
+     "links": [
+      11
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "CLIPLoader"
+   },
+   "widgets_values": [
+    "qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+    "minimax",
+    "default"
+   ]
+  },
+  {
+   "id": 3,
+   "type": "ModelAttentionBackend",
+   "pos": [
+    480,
+    60
+   ],
+   "size": [
+    380,
+    132
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 1
+    }
+   ],
+   "outputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "links": [
+      2
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "ModelAttentionBackend"
+   },
+   "widgets_values": [
+    "comfy kitchen attention"
+   ]
+  },
+  {
+   "id": 4,
+   "type": "VHS_LoadVideoPath",
+   "pos": [
+    60,
+    430
+   ],
+   "size": [
+    380,
+    340
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "meta_batch",
+     "type": "VHS_BatchManager",
+     "link": null
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      3,
+      28
+     ]
+    },
+    {
+     "name": "frame_count",
+     "type": "INT",
+     "links": [
+      15
+     ]
+    },
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "links": [
+      6,
+      32,
+      34
+     ]
+    },
+    {
+     "name": "video_info",
+     "type": "VHS_VIDEOINFO",
+     "links": []
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VHS_LoadVideoPath"
+   },
+   "widgets_values": [
+    "/home/comfy/ComfyUI/output/your_h3_video.mp4",
+    0,
+    0,
+    0,
+    0,
+    0,
+    1,
+    "AnimateDiff"
+   ],
+   "title": "your H3 video (with its audio)"
+  },
+  {
+   "id": 5,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    900,
+    60
+   ],
+   "size": [
+    380,
+    158
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 2
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      16
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "h3/rezeroh3/v4/REZERO_H3_V3-step00002250.safetensors",
+    1.0
+   ]
+  },
+  {
+   "id": 6,
+   "type": "VAELoader",
+   "pos": [
+    60,
+    810
+   ],
+   "size": [
+    380,
+    106
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      5,
+      12
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   },
+   "widgets_values": [
+    "minimax_h3_video_vae_fp16.safetensors"
+   ]
+  },
+  {
+   "id": 7,
+   "type": "VAELoader",
+   "pos": [
+    60,
+    956
+   ],
+   "size": [
+    380,
+    106
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      27
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   },
+   "widgets_values": [
+    "minimax_h3_video_vae_int8_convrot.safetensors"
+   ]
+  },
+  {
+   "id": 8,
+   "type": "VAELoader",
+   "pos": [
+    60,
+    1102
+   ],
+   "size": [
+    380,
+    106
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "VAE",
+     "type": "VAE",
+     "links": [
+      7
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAELoader"
+   },
+   "widgets_values": [
+    "minimax_h3_audio_vae_fp32.safetensors"
+   ]
+  },
+  {
+   "id": 9,
+   "type": "H3FaceAtlas",
+   "pos": [
+    480,
+    232
+   ],
+   "size": [
+    380,
+    392
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 3
+    }
+   ],
+   "outputs": [
+    {
+     "name": "canvas",
+     "type": "IMAGE",
+     "links": [
+      4
+     ]
+    },
+    {
+     "name": "regen_mask",
+     "type": "MASK",
+     "links": [
+      9
+     ]
+    },
+    {
+     "name": "atlas",
+     "type": "H3_FACE_ATLAS",
+     "links": [
+      20,
+      30
+     ]
+    },
+    {
+     "name": "preview",
+     "type": "IMAGE",
+     "links": []
+    },
+    {
+     "name": "width",
+     "type": "INT",
+     "links": [
+      13
+     ]
+    },
+    {
+     "name": "height",
+     "type": "INT",
+     "links": [
+      14
+     ]
+    },
+    {
+     "name": "report",
+     "type": "STRING",
+     "links": []
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "H3FaceAtlas"
+   },
+   "widgets_values": [
+    512,
+    2.6,
+    true,
+    1.4,
+    4,
+    0.2,
+    1024,
+    0.5,
+    0.0,
+    0.0,
+    0.0
+   ],
+   "title": "FACE ATLAS: every small face magnified into one canvas (+ pinned frame context)"
+  },
+  {
+   "id": 10,
+   "type": "VAEEncode",
+   "pos": [
+    900,
+    258
+   ],
+   "size": [
+    380,
+    132
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "pixels",
+     "type": "IMAGE",
+     "link": 4
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 5
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      8
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 11,
+   "type": "VAEEncodeAudio",
+   "pos": [
+    480,
+    664
+   ],
+   "size": [
+    380,
+    132
+   ],
+   "flags": {},
+   "order": 1,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 6
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 7
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      10
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEEncodeAudio"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 12,
+   "type": "H3V2VInit",
+   "pos": [
+    1320,
+    60
+   ],
+   "size": [
+    380,
+    444
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 8
+    },
+    {
+     "name": "oracle_samples",
+     "type": "LATENT",
+     "link": null
+    },
+    {
+     "name": "mask",
+     "type": "MASK",
+     "link": 9
+    },
+    {
+     "name": "audio_latent",
+     "type": "LATENT",
+     "link": 10
+    }
+   ],
+   "outputs": [
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": [
+      25
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "H3V2VInit"
+   },
+   "widgets_values": [
+    0,
+    0.0,
+    2,
+    0,
+    false,
+    true,
+    "pin the original outright (0.0)",
+    1.0,
+    0,
+    0
+   ],
+   "title": "V2V init: redraw only the face tiles, pass-1 audio pinned (lips stay in sync)"
+  },
+  {
+   "id": 13,
+   "type": "MiniMaxH3ImageToVideo",
+   "pos": [
+    900,
+    430
+   ],
+   "size": [
+    380,
+    366
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "clip",
+     "type": "CLIP",
+     "link": 11
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 12
+    },
+    {
+     "name": "width",
+     "type": "INT",
+     "link": 13,
+     "widget": {
+      "name": "width"
+     }
+    },
+    {
+     "name": "height",
+     "type": "INT",
+     "link": 14,
+     "widget": {
+      "name": "height"
+     }
+    },
+    {
+     "name": "length",
+     "type": "INT",
+     "link": 15,
+     "widget": {
+      "name": "length"
+     }
+    },
+    {
+     "name": "first_frame",
+     "type": "IMAGE",
+     "link": null
+    },
+    {
+     "name": "last_frame",
+     "type": "IMAGE",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "positive",
+     "type": "CONDITIONING",
+     "links": [
+      19
+     ]
+    },
+    {
+     "name": "LATENT",
+     "type": "LATENT",
+     "links": []
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "MiniMaxH3ImageToVideo"
+   },
+   "widgets_values": [
+    "integrated_multimodal_description: [Shot 1] 2d anime style, rezero style, a static wide full shot at night in a forest park: old stone stairs lead up between two stone pillars, dark green trees and glowing yellow fireflies drift in the air behind. Two characters stand side by side at the foot of the stairs, seen head to toe, small in the frame. On the left, char_emilia, a young woman with long silver hair, elf ears and purple eyes, wearing a purple bodysuit under a white cloak with a gold brooch, looks at her companion with a worried face. On the right, char_subaru, a young man with short black hair and brown eyes, wearing a green jacket, beige vest and an orange scarf, turns to her and talks with lively mouth movements and a confident grin, gesturing with one hand. char_subaru (S1) says: <d>[Japanese] \u5927\u4e08\u592b\u3060\u3088\u3001\u30a8\u30df\u30ea\u30a2\u305f\u3093\u3002\u4ffa\u304c\u3064\u3044\u3066\u308b\u3002</d> char_emilia (S2) answers softly: <d>[Japanese] \u3046\u3093\u3001\u3042\u308a\u304c\u3068\u3046\u3001\u30b9\u30d0\u30eb\u3002</d>\n\noverall_soundscape: Quiet night forest ambience, soft crickets, a light breeze through leaves.\n\nnon_diegetic_music: N/A",
+    1344,
+    768,
+    124
+   ]
+  },
+  {
+   "id": 14,
+   "type": "LoraLoaderModelOnly",
+   "pos": [
+    1320,
+    544
+   ],
+   "size": [
+    380,
+    158
+   ],
+   "flags": {},
+   "order": 3,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 16
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      17
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "LoraLoaderModelOnly"
+   },
+   "widgets_values": [
+    "h3/turbo/minimax_h3_DMAD_4step_full_lora_avg_rank_39_bf16.safetensors",
+    0.8
+   ]
+  },
+  {
+   "id": 15,
+   "type": "MiniMaxH3SigmaShift",
+   "pos": [
+    1740,
+    60
+   ],
+   "size": [
+    380,
+    158
+   ],
+   "flags": {},
+   "order": 4,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 17
+    }
+   ],
+   "outputs": [
+    {
+     "name": "MODEL",
+     "type": "MODEL",
+     "links": [
+      18
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "MiniMaxH3SigmaShift"
+   },
+   "widgets_values": [
+    12.0,
+    2.0
+   ]
+  },
+  {
+   "id": 16,
+   "type": "BasicGuider",
+   "pos": [
+    2160,
+    60
+   ],
+   "size": [
+    380,
+    132
+   ],
+   "flags": {},
+   "order": 5,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "model",
+     "type": "MODEL",
+     "link": 18
+    },
+    {
+     "name": "conditioning",
+     "type": "CONDITIONING",
+     "link": 19
+    }
+   ],
+   "outputs": [
+    {
+     "name": "GUIDER",
+     "type": "GUIDER",
+     "links": [
+      22
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "BasicGuider"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 17,
+   "type": "RandomNoise",
+   "pos": [
+    60,
+    1248
+   ],
+   "size": [
+    380,
+    132
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "NOISE",
+     "type": "NOISE",
+     "links": [
+      21
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "RandomNoise"
+   },
+   "widgets_values": [
+    7,
+    "fixed"
+   ]
+  },
+  {
+   "id": 18,
+   "type": "KSamplerSelect",
+   "pos": [
+    60,
+    1420
+   ],
+   "size": [
+    380,
+    106
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [
+    {
+     "name": "SAMPLER",
+     "type": "SAMPLER",
+     "links": [
+      23
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "KSamplerSelect"
+   },
+   "widgets_values": [
+    "euler"
+   ]
+  },
+  {
+   "id": 19,
+   "type": "H3FaceAtlasSigmas",
+   "pos": [
+    900,
+    836
+   ],
+   "size": [
+    380,
+    236
+   ],
+   "flags": {},
+   "order": 2,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "atlas",
+     "type": "H3_FACE_ATLAS",
+     "link": 20
+    }
+   ],
+   "outputs": [
+    {
+     "name": "sigmas",
+     "type": "SIGMAS",
+     "links": [
+      24
+     ]
+    },
+    {
+     "name": "start_sigma",
+     "type": "FLOAT",
+     "links": []
+    },
+    {
+     "name": "report",
+     "type": "STRING",
+     "links": []
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "H3FaceAtlasSigmas"
+   },
+   "widgets_values": [
+    4,
+    0.7,
+    0.8,
+    0.95,
+    12.0
+   ],
+   "title": "redraw depth from face size (tiny faces redraw deeper)"
+  },
+  {
+   "id": 20,
+   "type": "SamplerCustomAdvanced",
+   "pos": [
+    2580,
+    60
+   ],
+   "size": [
+    380,
+    210
+   ],
+   "flags": {},
+   "order": 6,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "noise",
+     "type": "NOISE",
+     "link": 21
+    },
+    {
+     "name": "guider",
+     "type": "GUIDER",
+     "link": 22
+    },
+    {
+     "name": "sampler",
+     "type": "SAMPLER",
+     "link": 23
+    },
+    {
+     "name": "sigmas",
+     "type": "SIGMAS",
+     "link": 24
+    },
+    {
+     "name": "latent_image",
+     "type": "LATENT",
+     "link": 25
+    }
+   ],
+   "outputs": [
+    {
+     "name": "output",
+     "type": "LATENT",
+     "links": [
+      26
+     ]
+    },
+    {
+     "name": "denoised_output",
+     "type": "LATENT",
+     "links": []
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "SamplerCustomAdvanced"
+   },
+   "widgets_values": [],
+   "title": "FACE PASS (DMAD turbo, 4 steps)"
+  },
+  {
+   "id": 21,
+   "type": "VAEDecode",
+   "pos": [
+    3000,
+    60
+   ],
+   "size": [
+    380,
+    132
+   ],
+   "flags": {},
+   "order": 7,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "samples",
+     "type": "LATENT",
+     "link": 26
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": 27
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      29,
+      33
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VAEDecode"
+   },
+   "widgets_values": []
+  },
+  {
+   "id": 22,
+   "type": "H3FaceAtlasStitch",
+   "pos": [
+    3420,
+    60
+   ],
+   "size": [
+    380,
+    262
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 28
+    },
+    {
+     "name": "refined",
+     "type": "IMAGE",
+     "link": 29
+    },
+    {
+     "name": "atlas",
+     "type": "H3_FACE_ATLAS",
+     "link": 30
+    }
+   ],
+   "outputs": [
+    {
+     "name": "IMAGE",
+     "type": "IMAGE",
+     "links": [
+      31
+     ]
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "H3FaceAtlasStitch"
+   },
+   "widgets_values": [
+    1.5,
+    3.0,
+    1.0,
+    1.0
+   ],
+   "title": "STITCH: faces back into the frames"
+  },
+  {
+   "id": 23,
+   "type": "VHS_VideoCombine",
+   "pos": [
+    3840,
+    60
+   ],
+   "size": [
+    380,
+    392
+   ],
+   "flags": {},
+   "order": 9,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 31
+    },
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 32
+    },
+    {
+     "name": "meta_batch",
+     "type": "VHS_BatchManager",
+     "link": null
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "Filenames",
+     "type": "VHS_FILENAMES",
+     "links": []
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VHS_VideoCombine"
+   },
+   "widgets_values": {
+    "frame_rate": 24,
+    "loop_count": 0,
+    "filename_prefix": "claudeanime/wf/wide_face_fix",
+    "format": "video/h264-mp4",
+    "pix_fmt": "yuv420p",
+    "crf": 12,
+    "save_metadata": true,
+    "trim_to_audio": false,
+    "pingpong": false,
+    "save_output": true,
+    "videopreview": {
+     "hidden": false,
+     "paused": false,
+     "params": {}
+    }
+   }
+  },
+  {
+   "id": 24,
+   "type": "VHS_VideoCombine",
+   "pos": [
+    3420,
+    362
+   ],
+   "size": [
+    380,
+    392
+   ],
+   "flags": {},
+   "order": 8,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "images",
+     "type": "IMAGE",
+     "link": 33
+    },
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 34
+    },
+    {
+     "name": "meta_batch",
+     "type": "VHS_BatchManager",
+     "link": null
+    },
+    {
+     "name": "vae",
+     "type": "VAE",
+     "link": null
+    }
+   ],
+   "outputs": [
+    {
+     "name": "Filenames",
+     "type": "VHS_FILENAMES",
+     "links": []
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "VHS_VideoCombine"
+   },
+   "widgets_values": {
+    "frame_rate": 24,
+    "loop_count": 0,
+    "filename_prefix": "claudeanime/wf/wide_face_fix_tiles",
+    "format": "video/h264-mp4",
+    "pix_fmt": "yuv420p",
+    "crf": 12,
+    "save_metadata": false,
+    "trim_to_audio": false,
+    "pingpong": false,
+    "save_output": true,
+    "videopreview": {
+     "hidden": false,
+     "paused": false,
+     "params": {}
+    }
+   }
+  },
+  {
+   "id": 25,
+   "type": "Note",
+   "pos": [
+    60,
+    -420
+   ],
+   "size": [
+    500,
+    380
+   ],
+   "flags": {},
+   "order": 0,
+   "mode": 0,
+   "inputs": [],
+   "outputs": [],
+   "properties": {},
+   "widgets_values": [
+    "WIDE-SHOT FACE FIX\n\nWhy wide-shot faces go mushy in H3: the DiT draws in 32x32 px tokens (16x VAE + 2x2 patch). A 35 px face in a 1024x576 wide shot is ~2 tokens, so eyes and mouth have nowhere to go. Higher output resolution barely helps (the face is still a tiny share of the frame).\nH3 Face Atlas finds every anime face (ONNX detector, CPU), tracks it per shot, and magnifies each one into its own 512 px tile of ONE canvas: ~60 tokens per face instead of ~2, all characters in a single pass. The whole frame sits above the tiles at half size, pinned (not redrawn), so the faces are redrawn while seeing the scene: no stray effects pasted onto faces and no extra boiling. Pass 1's audio is pinned, so mouths follow the dialogue.\nUse the SAME prompt + style LoRA as the render. Faces already big on screen are skipped (close-ups pass through untouched)."
+   ]
+  }
+ ],
+ "links": [
+  [
+   1,
+   1,
+   0,
+   3,
+   0,
+   "MODEL"
+  ],
+  [
+   2,
+   3,
+   0,
+   5,
+   0,
+   "MODEL"
+  ],
+  [
+   3,
+   4,
+   0,
+   9,
+   0,
+   "IMAGE"
+  ],
+  [
+   4,
+   9,
+   0,
+   10,
+   0,
+   "IMAGE"
+  ],
+  [
+   5,
+   6,
+   0,
+   10,
+   1,
+   "VAE"
+  ],
+  [
+   6,
+   4,
+   2,
+   11,
+   0,
+   "AUDIO"
+  ],
+  [
+   7,
+   8,
+   0,
+   11,
+   1,
+   "VAE"
+  ],
+  [
+   8,
+   10,
+   0,
+   12,
+   0,
+   "LATENT"
+  ],
+  [
+   9,
+   9,
+   1,
+   12,
+   2,
+   "MASK"
+  ],
+  [
+   10,
+   11,
+   0,
+   12,
+   3,
+   "LATENT"
+  ],
+  [
+   11,
+   2,
+   0,
+   13,
+   0,
+   "CLIP"
+  ],
+  [
+   12,
+   6,
+   0,
+   13,
+   1,
+   "VAE"
+  ],
+  [
+   13,
+   9,
+   4,
+   13,
+   2,
+   "INT"
+  ],
+  [
+   14,
+   9,
+   5,
+   13,
+   3,
+   "INT"
+  ],
+  [
+   15,
+   4,
+   1,
+   13,
+   4,
+   "INT"
+  ],
+  [
+   16,
+   5,
+   0,
+   14,
+   0,
+   "MODEL"
+  ],
+  [
+   17,
+   14,
+   0,
+   15,
+   0,
+   "MODEL"
+  ],
+  [
+   18,
+   15,
+   0,
+   16,
+   0,
+   "MODEL"
+  ],
+  [
+   19,
+   13,
+   0,
+   16,
+   1,
+   "CONDITIONING"
+  ],
+  [
+   20,
+   9,
+   2,
+   19,
+   0,
+   "H3_FACE_ATLAS"
+  ],
+  [
+   21,
+   17,
+   0,
+   20,
+   0,
+   "NOISE"
+  ],
+  [
+   22,
+   16,
+   0,
+   20,
+   1,
+   "GUIDER"
+  ],
+  [
+   23,
+   18,
+   0,
+   20,
+   2,
+   "SAMPLER"
+  ],
+  [
+   24,
+   19,
+   0,
+   20,
+   3,
+   "SIGMAS"
+  ],
+  [
+   25,
+   12,
+   0,
+   20,
+   4,
+   "LATENT"
+  ],
+  [
+   26,
+   20,
+   0,
+   21,
+   0,
+   "LATENT"
+  ],
+  [
+   27,
+   7,
+   0,
+   21,
+   1,
+   "VAE"
+  ],
+  [
+   28,
+   4,
+   0,
+   22,
+   0,
+   "IMAGE"
+  ],
+  [
+   29,
+   21,
+   0,
+   22,
+   1,
+   "IMAGE"
+  ],
+  [
+   30,
+   9,
+   2,
+   22,
+   2,
+   "H3_FACE_ATLAS"
+  ],
+  [
+   31,
+   22,
+   0,
+   23,
+   0,
+   "IMAGE"
+  ],
+  [
+   32,
+   4,
+   2,
+   23,
+   1,
+   "AUDIO"
+  ],
+  [
+   33,
+   21,
+   0,
+   24,
+   0,
+   "IMAGE"
+  ],
+  [
+   34,
+   4,
+   2,
+   24,
+   1,
+   "AUDIO"
+  ]
+ ],
+ "groups": [],
+ "config": {},
+ "extra": {},
+ "version": 0.4
+}
