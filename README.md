@@ -2,7 +2,7 @@
 
 **Fixes mushy faces in MiniMax H3 wide shots: one extra pass redraws every small face at once, while it sees the whole scene.**
 
-Built and tested on anime: Re:Zero, Cyberpunk Edgerunners, Teen Titans and Golden Boy style LoRAs.
+Built for anime and tested on Re:Zero, Cyberpunk Edgerunners, Teen Titans and Golden Boy style LoRAs and on base-model anime. It also works on live action: the anime face detector finds real faces too.
 
 ## Why H3 wide-shot faces go mushy
 
