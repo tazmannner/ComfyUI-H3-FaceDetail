@@ -40,7 +40,7 @@ costs only the detection.
 | | pass 1 (20 steps) | face pass | of which sampling |
 |---|---|---|---|
 | 1024x576, 2 faces | 84 s | ~45 s | 24 s |
-| 1024x576, 3 faces | 83 s | ~75 s | 42 s |
+| 1024x576, 3–4 faces (smaller tiles) | 79–83 s | ~60 s | ~30 s |
 | 1344x768 (1 MP), 2 faces | 166 s | ~65 s | 28 s |
 
 The rest is detection (~5 s, CPU, every 2nd frame), VAE encode of the canvas (~10-15 s), decode (~5 s) and stitch (~2 s).
