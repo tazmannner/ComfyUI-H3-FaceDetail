@@ -4,6 +4,17 @@
 
 Built for anime and tested on Re:Zero, Cyberpunk Edgerunners, Teen Titans and Golden Boy style LoRAs and on base-model anime. It also works on live action: the anime face detector finds real faces too.
 
+![Edgerunners wide shot at 1344x768: pass 1 vs face fix, zoomed on the faces](assets/demo_edgerunners_1mp.gif)
+
+*Edgerunners LoRA at 1344x768. The faces are 22-24 px in the frame. Top: face-fixed render. Bottom: zoom on the
+faces, pass 1 vs face fix. Pass 1 took 171 s and the face fix 72 s on an RTX 5090.*
+([mp4 with sound](assets/demo_edgerunners_1mp.mp4))
+
+![Live action wide shot at 1344x768: pass 1 vs face fix, zoomed on the faces](assets/demo_liveaction_1mp.gif)
+
+*Live action, no LoRA, 1344x768. The anime face detector finds real faces too. Pass 1 took 172 s and the face fix
+72 s.* ([mp4 with sound](assets/demo_liveaction_1mp.mp4))
+
 ## Why H3 wide-shot faces go mushy
 
 H3's video VAE compresses 16x spatially, and the DiT then patches 2x2 latents, so **every DiT token covers 32x32 pixels**.
@@ -51,7 +62,7 @@ costs only the detection.
 |---|---|---|---|
 | 1024x576, 2 faces | 84 s | ~45 s | 24 s |
 | 1024x576, 3–4 faces (smaller tiles) | 79–83 s | ~60 s | ~30 s |
-| 1344x768 (1 MP), 2 faces | 166 s | ~65 s | 28 s |
+| 1344x768 (1 MP), 2 faces | 166-172 s | ~65-72 s | 28 s |
 
 The rest is detection (~5 s, CPU, every 2nd frame), VAE encode of the canvas (~10-15 s), decode (~5 s) and stitch (~2 s).
 In the full Fast De-rope + face fix + Anime Cadence graph a 5 s clip took 141-159 s, against ~84 s for a plain render.
