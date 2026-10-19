@@ -75,17 +75,21 @@ class H3FaceAtlasStitch:
     def INPUT_TYPES(cls):
         return {"required": {
             "images": ("IMAGE",), "refined": ("IMAGE",), "atlas": ("H3_FACE_ATLAS",),
-            "mask_scale": ("FLOAT", {"default": 1.5, "min": 0.8, "max": 3.0, "step": 0.05,
-                           "tooltip": "paste ellipse diameter / detected face size"}),
+            "mask_scale": ("FLOAT", {"default": 1.0, "min": 0.8, "max": 3.0, "step": 0.05,
+                           "tooltip": "paste ellipse diameter / detected face size. 1.0 = the face only: hair outline and "
+                                      "neckline stay pass 1's (steady); bigger pastes more of the redraw and its edges"}),
             "feather": ("FLOAT", {"default": 3.0, "min": 0.5, "max": 20.0, "step": 0.5, "tooltip": "source pixels"}),
             "color_match": ("FLOAT", {"default": 1.0, "min": 0.0, "max": 1.0, "step": 0.05}),
             "blend": ("FLOAT", {"default": 1.0, "min": 0.0, "max": 1.0, "step": 0.05}),
         }, "optional": {
+            "geometry_lock": ("BOOLEAN", {"default": True, "tooltip": "warp each redrawn face onto pass 1's line positions "
+                              "(smoothed optical flow): stops the outlines shimmering against the untouched pixels around "
+                              "the patch, keeps the redraw's detail"}),
             "fidelity_gate": ("BOOLEAN", {"default": True, "tooltip": "keep the original on frames where the redraw "
                               "reinvented the head (spins, back of the head, motion-blurred turns) instead of refining it"}),
         }}
 
-    def run(self, images, refined, atlas, mask_scale, feather, color_match, blend, fidelity_gate=True):
+    def run(self, images, refined, atlas, mask_scale, feather, color_match, blend, fidelity_gate=True, geometry_lock=True):
         if atlas["nslots"] == 0:
             return (images,)
         fr = images.cpu().numpy().astype(np.float32)
@@ -95,7 +99,7 @@ class H3FaceAtlasStitch:
         if rf.shape[1:3] != (atlas["ch"], atlas["cw"]):
             raise ValueError(f"refined is {rf.shape[2]}x{rf.shape[1]}, atlas canvas {atlas['cw']}x{atlas['ch']}")
         out = atlas_mod.stitch(fr, rf, atlas, mask_scale=mask_scale, feather=feather, color_match=color_match, blend=blend,
-                                fidelity_gate=fidelity_gate)
+                                fidelity_gate=fidelity_gate, lock_geometry=geometry_lock)
         return (torch.from_numpy(out),)
 
 

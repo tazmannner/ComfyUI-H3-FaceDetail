@@ -1,6 +1,6 @@
 {
  "last_node_id": 53,
- "last_link_id": 83,
+ "last_link_id": 84,
  "nodes": [
   {
    "id": 1,
@@ -56,7 +56,7 @@
      "links": [
       3,
       22,
-      65
+      66
      ]
     }
    ],
@@ -90,8 +90,8 @@
      "type": "VAE",
      "links": [
       4,
-      59,
-      66
+      60,
+      67
      ]
     }
    ],
@@ -124,7 +124,7 @@
      "links": [
       38,
       46,
-      80
+      81
      ]
     }
    ],
@@ -157,7 +157,7 @@
      "type": "VAE",
      "links": [
       42,
-      61
+      62
      ]
     }
    ],
@@ -230,7 +230,7 @@
      "links": [
       2,
       26,
-      69
+      70
      ]
     }
    ],
@@ -700,7 +700,7 @@
      "type": "IMAGE",
      "links": [
       18,
-      54
+      55
      ]
     },
     {
@@ -708,7 +708,7 @@
      "type": "STRING",
      "links": [
       40,
-      55
+      56
      ]
     },
     {
@@ -1275,7 +1275,7 @@
      "name": "IMAGE",
      "type": "IMAGE",
      "links": [
-      53
+      54
      ]
     }
    ],
@@ -1319,7 +1319,7 @@
      "type": "AUDIO",
      "links": [
       44,
-      60
+      61
      ]
     }
    ],
@@ -1425,7 +1425,8 @@
      "type": "IMAGE",
      "links": [
       49,
-      51
+      50,
+      52
      ]
     }
    ],
@@ -1443,7 +1444,7 @@
    ],
    "size": [
     380,
-    314
+    340
    ],
    "flags": {},
    "order": 6,
@@ -1458,6 +1459,11 @@
      "name": "oracle_hold_map",
      "type": "STRING",
      "link": 48
+    },
+    {
+     "name": "static_images",
+     "type": "IMAGE",
+     "link": 49
     }
    ],
    "outputs": [
@@ -1466,7 +1472,7 @@
      "type": "IMAGE",
      "links": [
       16,
-      56
+      57
      ]
     },
     {
@@ -1480,14 +1486,14 @@
      "name": "splice_map",
      "type": "STRING",
      "links": [
-      52
+      53
      ]
     },
     {
      "name": "segment_start",
      "type": "INT",
      "links": [
-      50
+      51
      ]
     },
     {
@@ -1527,12 +1533,12 @@
     {
      "name": "image",
      "type": "IMAGE",
-     "link": 49
+     "link": 50
     },
     {
      "name": "batch_index",
      "type": "INT",
-     "link": 50,
+     "link": 51,
      "widget": {
       "name": "batch_index"
      }
@@ -1573,17 +1579,17 @@
     {
      "name": "baseline",
      "type": "IMAGE",
-     "link": 51
+     "link": 52
     },
     {
      "name": "splice_map",
      "type": "STRING",
-     "link": 52
+     "link": 53
     },
     {
      "name": "segment",
      "type": "IMAGE",
-     "link": 53
+     "link": 54
     }
    ],
    "outputs": [
@@ -1591,8 +1597,8 @@
      "name": "IMAGE",
      "type": "IMAGE",
      "links": [
-      57,
-      81
+      58,
+      82
      ]
     }
    ],
@@ -1623,17 +1629,17 @@
     {
      "name": "images",
      "type": "IMAGE",
-     "link": 54
+     "link": 55
     },
     {
      "name": "map",
      "type": "STRING",
-     "link": 55
+     "link": 56
     },
     {
      "name": "segment_images",
      "type": "IMAGE",
-     "link": 56
+     "link": 57
     }
    ],
    "outputs": [
@@ -1671,7 +1677,7 @@
     {
      "name": "images",
      "type": "IMAGE",
-     "link": 57
+     "link": 58
     }
    ],
    "outputs": [
@@ -1679,22 +1685,22 @@
      "name": "canvas",
      "type": "IMAGE",
      "links": [
-      58
+      59
      ]
     },
     {
      "name": "regen_mask",
      "type": "MASK",
      "links": [
-      63
+      64
      ]
     },
     {
      "name": "atlas",
      "type": "H3_FACE_ATLAS",
      "links": [
-      73,
-      83
+      74,
+      84
      ]
     },
     {
@@ -1706,14 +1712,14 @@
      "name": "width",
      "type": "INT",
      "links": [
-      67
+      68
      ]
     },
     {
      "name": "height",
      "type": "INT",
      "links": [
-      68
+      69
      ]
     },
     {
@@ -1758,12 +1764,12 @@
     {
      "name": "pixels",
      "type": "IMAGE",
-     "link": 58
+     "link": 59
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 59
+     "link": 60
     }
    ],
    "outputs": [
@@ -1771,7 +1777,7 @@
      "name": "LATENT",
      "type": "LATENT",
      "links": [
-      62
+      63
      ]
     }
    ],
@@ -1785,7 +1791,7 @@
    "type": "VAEEncodeAudio",
    "pos": [
     2580,
-    414
+    440
    ],
    "size": [
     380,
@@ -1798,12 +1804,12 @@
     {
      "name": "audio",
      "type": "AUDIO",
-     "link": 60
+     "link": 61
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 61
+     "link": 62
     }
    ],
    "outputs": [
@@ -1811,7 +1817,7 @@
      "name": "LATENT",
      "type": "LATENT",
      "links": [
-      64
+      65
      ]
     }
    ],
@@ -1838,7 +1844,7 @@
     {
      "name": "samples",
      "type": "LATENT",
-     "link": 62
+     "link": 63
     },
     {
      "name": "oracle_samples",
@@ -1848,12 +1854,12 @@
     {
      "name": "mask",
      "type": "MASK",
-     "link": 63
+     "link": 64
     },
     {
      "name": "audio_latent",
      "type": "LATENT",
-     "link": 64
+     "link": 65
     }
    ],
    "outputs": [
@@ -1861,7 +1867,7 @@
      "name": "LATENT",
      "type": "LATENT",
      "links": [
-      78
+      79
      ]
     }
    ],
@@ -1900,17 +1906,17 @@
     {
      "name": "clip",
      "type": "CLIP",
-     "link": 65
+     "link": 66
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 66
+     "link": 67
     },
     {
      "name": "width",
      "type": "INT",
-     "link": 67,
+     "link": 68,
      "widget": {
       "name": "width"
      }
@@ -1918,7 +1924,7 @@
     {
      "name": "height",
      "type": "INT",
-     "link": 68,
+     "link": 69,
      "widget": {
       "name": "height"
      }
@@ -1939,7 +1945,7 @@
      "name": "positive",
      "type": "CONDITIONING",
      "links": [
-      72
+      73
      ]
     },
     {
@@ -1976,7 +1982,7 @@
     {
      "name": "model",
      "type": "MODEL",
-     "link": 69
+     "link": 70
     }
    ],
    "outputs": [
@@ -1984,7 +1990,7 @@
      "name": "MODEL",
      "type": "MODEL",
      "links": [
-      70
+      71
      ]
     }
    ],
@@ -2014,7 +2020,7 @@
     {
      "name": "model",
      "type": "MODEL",
-     "link": 70
+     "link": 71
     }
    ],
    "outputs": [
@@ -2022,7 +2028,7 @@
      "name": "MODEL",
      "type": "MODEL",
      "links": [
-      71
+      72
      ]
     }
    ],
@@ -2052,12 +2058,12 @@
     {
      "name": "model",
      "type": "MODEL",
-     "link": 71
+     "link": 72
     },
     {
      "name": "conditioning",
      "type": "CONDITIONING",
-     "link": 72
+     "link": 73
     }
    ],
    "outputs": [
@@ -2065,7 +2071,7 @@
      "name": "GUIDER",
      "type": "GUIDER",
      "links": [
-      75
+      76
      ]
     }
    ],
@@ -2094,7 +2100,7 @@
      "name": "NOISE",
      "type": "NOISE",
      "links": [
-      74
+      75
      ]
     }
    ],
@@ -2126,7 +2132,7 @@
      "name": "SAMPLER",
      "type": "SAMPLER",
      "links": [
-      76
+      77
      ]
     }
    ],
@@ -2155,7 +2161,7 @@
     {
      "name": "atlas",
      "type": "H3_FACE_ATLAS",
-     "link": 73
+     "link": 74
     }
    ],
    "outputs": [
@@ -2163,7 +2169,7 @@
      "name": "sigmas",
      "type": "SIGMAS",
      "links": [
-      77
+      78
      ]
     },
     {
@@ -2207,27 +2213,27 @@
     {
      "name": "noise",
      "type": "NOISE",
-     "link": 74
+     "link": 75
     },
     {
      "name": "guider",
      "type": "GUIDER",
-     "link": 75
+     "link": 76
     },
     {
      "name": "sampler",
      "type": "SAMPLER",
-     "link": 76
+     "link": 77
     },
     {
      "name": "sigmas",
      "type": "SIGMAS",
-     "link": 77
+     "link": 78
     },
     {
      "name": "latent_image",
      "type": "LATENT",
-     "link": 78
+     "link": 79
     }
    ],
    "outputs": [
@@ -2235,7 +2241,7 @@
      "name": "output",
      "type": "LATENT",
      "links": [
-      79
+      80
      ]
     },
     {
@@ -2268,12 +2274,12 @@
     {
      "name": "samples",
      "type": "LATENT",
-     "link": 79
+     "link": 80
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 80
+     "link": 81
     }
    ],
    "outputs": [
@@ -2281,7 +2287,7 @@
      "name": "IMAGE",
      "type": "IMAGE",
      "links": [
-      82
+      83
      ]
     }
    ],
@@ -2299,7 +2305,7 @@
    ],
    "size": [
     380,
-    288
+    314
    ],
    "flags": {},
    "order": 19,
@@ -2308,17 +2314,17 @@
     {
      "name": "images",
      "type": "IMAGE",
-     "link": 81
+     "link": 82
     },
     {
      "name": "refined",
      "type": "IMAGE",
-     "link": 82
+     "link": 83
     },
     {
      "name": "atlas",
      "type": "H3_FACE_ATLAS",
-     "link": 83
+     "link": 84
     }
    ],
    "outputs": [
@@ -2334,10 +2340,11 @@
     "Node name for S&R": "H3FaceAtlasStitch"
    },
    "widgets_values": [
-    1.5,
+    1.0,
     3.0,
     1.0,
     1.0,
+    true,
     true
    ],
    "title": "STITCH: faces back into the frames"
@@ -2795,12 +2802,20 @@
    49,
    32,
    0,
+   33,
+   2,
+   "IMAGE"
+  ],
+  [
+   50,
+   32,
+   0,
    34,
    0,
    "IMAGE"
   ],
   [
-   50,
+   51,
    33,
    3,
    34,
@@ -2808,7 +2823,7 @@
    "INT"
   ],
   [
-   51,
+   52,
    32,
    0,
    35,
@@ -2816,7 +2831,7 @@
    "IMAGE"
   ],
   [
-   52,
+   53,
    33,
    2,
    35,
@@ -2824,7 +2839,7 @@
    "STRING"
   ],
   [
-   53,
+   54,
    29,
    0,
    35,
@@ -2832,7 +2847,7 @@
    "IMAGE"
   ],
   [
-   54,
+   55,
    17,
    0,
    36,
@@ -2840,7 +2855,7 @@
    "IMAGE"
   ],
   [
-   55,
+   56,
    17,
    1,
    36,
@@ -2848,7 +2863,7 @@
    "STRING"
   ],
   [
-   56,
+   57,
    33,
    0,
    36,
@@ -2856,7 +2871,7 @@
    "IMAGE"
   ],
   [
-   57,
+   58,
    35,
    0,
    37,
@@ -2864,7 +2879,7 @@
    "IMAGE"
   ],
   [
-   58,
+   59,
    37,
    0,
    38,
@@ -2872,7 +2887,7 @@
    "IMAGE"
   ],
   [
-   59,
+   60,
    3,
    0,
    38,
@@ -2880,7 +2895,7 @@
    "VAE"
   ],
   [
-   60,
+   61,
    30,
    0,
    39,
@@ -2888,7 +2903,7 @@
    "AUDIO"
   ],
   [
-   61,
+   62,
    5,
    0,
    39,
@@ -2896,7 +2911,7 @@
    "VAE"
   ],
   [
-   62,
+   63,
    38,
    0,
    40,
@@ -2904,7 +2919,7 @@
    "LATENT"
   ],
   [
-   63,
+   64,
    37,
    1,
    40,
@@ -2912,7 +2927,7 @@
    "MASK"
   ],
   [
-   64,
+   65,
    39,
    0,
    40,
@@ -2920,7 +2935,7 @@
    "LATENT"
   ],
   [
-   65,
+   66,
    2,
    0,
    41,
@@ -2928,7 +2943,7 @@
    "CLIP"
   ],
   [
-   66,
+   67,
    3,
    0,
    41,
@@ -2936,7 +2951,7 @@
    "VAE"
   ],
   [
-   67,
+   68,
    37,
    4,
    41,
@@ -2944,7 +2959,7 @@
    "INT"
   ],
   [
-   68,
+   69,
    37,
    5,
    41,
@@ -2952,7 +2967,7 @@
    "INT"
   ],
   [
-   69,
+   70,
    7,
    0,
    42,
@@ -2960,7 +2975,7 @@
    "MODEL"
   ],
   [
-   70,
+   71,
    42,
    0,
    43,
@@ -2968,7 +2983,7 @@
    "MODEL"
   ],
   [
-   71,
+   72,
    43,
    0,
    44,
@@ -2976,7 +2991,7 @@
    "MODEL"
   ],
   [
-   72,
+   73,
    41,
    0,
    44,
@@ -2984,7 +2999,7 @@
    "CONDITIONING"
   ],
   [
-   73,
+   74,
    37,
    2,
    47,
@@ -2992,7 +3007,7 @@
    "H3_FACE_ATLAS"
   ],
   [
-   74,
+   75,
    45,
    0,
    48,
@@ -3000,7 +3015,7 @@
    "NOISE"
   ],
   [
-   75,
+   76,
    44,
    0,
    48,
@@ -3008,7 +3023,7 @@
    "GUIDER"
   ],
   [
-   76,
+   77,
    46,
    0,
    48,
@@ -3016,7 +3031,7 @@
    "SAMPLER"
   ],
   [
-   77,
+   78,
    47,
    0,
    48,
@@ -3024,7 +3039,7 @@
    "SIGMAS"
   ],
   [
-   78,
+   79,
    40,
    0,
    48,
@@ -3032,7 +3047,7 @@
    "LATENT"
   ],
   [
-   79,
+   80,
    48,
    0,
    49,
@@ -3040,7 +3055,7 @@
    "LATENT"
   ],
   [
-   80,
+   81,
    4,
    0,
    49,
@@ -3048,7 +3063,7 @@
    "VAE"
   ],
   [
-   81,
+   82,
    35,
    0,
    50,
@@ -3056,7 +3071,7 @@
    "IMAGE"
   ],
   [
-   82,
+   83,
    49,
    0,
    50,
@@ -3064,7 +3079,7 @@
    "IMAGE"
   ],
   [
-   83,
+   84,
    37,
    2,
    50,

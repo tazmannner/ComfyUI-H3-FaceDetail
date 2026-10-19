@@ -35,6 +35,12 @@ So the fix has to give faces more tokens. Re-rendering the whole frame bigger co
    the head instead of refining it, that frame keeps the original. Examples: a spin, the back of a head, a
    motion-blurred turn. "Reinvented" means more than ~2x the track's usual difference.
    On fast heads the crop follows the detections closely instead of a smoothed path, so it never lands beside the face.
+   A **geometry lock** warps each redrawn face onto pass 1's line positions before pasting. It uses heavily smoothed
+   optical flow from the original crop, so only regional drift is corrected and the new detail stays. Without it the
+   redraw places the jaw, collar and hair edge about a pixel differently every frame. Next to pass 1's steady pixels
+   outside the mask, that reads as the patch shifting. The paste mask covers only the face (`mask_scale` 1.0), so hair
+   outline and neckline stay pass 1's. Neck-band shimmer on a walking two-shot: 1.06 → 0.22 (lossless), which is below
+   h264's own noise.
 
 Faces that are already big on screen (close-ups) are skipped and pass through untouched. A clip with no small faces
 costs only the detection.
@@ -56,7 +62,7 @@ In the full Fast De-rope + face fix + Anime Cadence graph a 5 s clip took 141-15
 |---|---|
 | H3 Face Atlas (wide-shot faces) | `tile` 512, `crop_factor` 2.6 (face ~40% of its tile), `context` + `context_scale` 0.5, `min_magnification` 1.4 (skip big faces), `confidence` 0.2 |
 | H3 Face Atlas Sigmas (by face size) | `steps` 4, `sigma_at_3x` 0.70, `sigma_at_5x` 0.80, `sigma_at_10x` 0.95 |
-| H3 Face Atlas Stitch | `mask_scale` 1.5, `feather` 3 px, `color_match` 1.0 |
+| H3 Face Atlas Stitch | `mask_scale` 1.0 (face only), `feather` 3 px, `color_match` 1.0, `geometry_lock` on, `fidelity_gate` on |
 
 Wiring: `canvas` → VAEEncode → H3V2VInit (`mask` = `regen_mask`, `time_varying` on, `audio_latent` = VAEEncodeAudio of
 the render's audio, audio_mode *pin*) → SamplerCustomAdvanced (`sigmas` from H3 Face Atlas Sigmas; the

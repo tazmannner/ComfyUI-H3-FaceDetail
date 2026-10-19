@@ -963,7 +963,7 @@
    ],
    "size": [
     380,
-    288
+    314
    ],
    "flags": {},
    "order": 8,
@@ -998,10 +998,11 @@
     "Node name for S&R": "H3FaceAtlasStitch"
    },
    "widgets_values": [
-    1.5,
+    1.0,
     3.0,
     1.0,
     1.0,
+    true,
     true
    ],
    "title": "STITCH: faces back into the frames"
@@ -1075,7 +1076,7 @@
    "type": "VHS_VideoCombine",
    "pos": [
     3420,
-    388
+    414
    ],
    "size": [
     380,

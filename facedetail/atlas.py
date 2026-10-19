@@ -141,10 +141,47 @@ def fidelity(frames, refined, lay, res=40, full=1.8, zero=2.5):
     return out
 
 
-def stitch(frames, refined, lay, mask_scale=1.5, feather=4.0, color_match=1.0, blend=1.0, fade_sigma=4.0, fidelity_gate=True):
+def geometry_lock(frames, refined, lay, smooth_frac=0.03, max_frac=0.04):
+    """Warp every redrawn tile onto pass 1's geometry. The redraw places outlines (jaw, collar, hair edge) about a pixel
+    differently on each frame; next to pass 1's steady pixels outside the paste mask that reads as the patch shifting.
+    Per tile: dense optical flow from the original crop to the redraw on blurred grey (structure, not detail), smoothed
+    hard (regional drift only) and capped, then the redraw is resampled by it. Eyes, mouth and line detail stay the
+    redraw's; where things sit comes from pass 1, which is temporally steady."""
+    T = lay["T"]
+    h = max(64, T // 2)                                       # flow at half resolution, then scaled up
+    gx, gy = np.meshgrid(np.arange(T, dtype=np.float32), np.arange(T, dtype=np.float32))
+    out = refined.copy()
+    for k in range(lay["nslots"]):
+        ox, oy = lay["origin"][k]
+        for i in range(lay["n"]):
+            e = lay["slots"][k][i]
+            if e is None:
+                continue
+            t, j = e
+            M = _crop_matrix(t["cx"][j], t["cy"][j], t["side"][j], T)
+            orig = cv2.warpAffine(frames[i], M, (T, T), flags=cv2.INTER_CUBIC | cv2.WARP_INVERSE_MAP,
+                                  borderMode=cv2.BORDER_REPLICATE)
+            tile = refined[i, oy:oy + T, ox:ox + T].astype(np.float32)
+
+            def grey(x):
+                g = cv2.cvtColor((np.clip(x, 0, 1) * 255).astype(np.uint8), cv2.COLOR_RGB2GRAY)
+                return cv2.GaussianBlur(cv2.resize(g, (h, h), interpolation=cv2.INTER_AREA), (0, 0), 1.5)
+            fl = cv2.calcOpticalFlowFarneback(grey(orig), grey(tile), None, 0.5, 4, 15, 3, 7, 1.5, 0)
+            fl = np.stack([cv2.GaussianBlur(fl[..., c], (0, 0), smooth_frac * h) for c in range(2)], -1)
+            fl = cv2.resize(fl, (T, T), interpolation=cv2.INTER_LINEAR) * (T / h)
+            fl = np.clip(fl, -max_frac * T, max_frac * T)
+            out[i, oy:oy + T, ox:ox + T] = cv2.remap(tile, gx + fl[..., 0], gy + fl[..., 1], cv2.INTER_CUBIC,
+                                                     borderMode=cv2.BORDER_REFLECT)
+    return out
+
+
+def stitch(frames, refined, lay, mask_scale=1.0, feather=3.0, color_match=1.0, blend=1.0, fade_sigma=4.0, fidelity_gate=True,
+           lock_geometry=True):
     """frames (N,H,W,3), refined canvas (N,ch,cw,3) -> (N,H,W,3)"""
     out = frames.copy()
     n, T, W, H = lay["n"], lay["T"], lay["W"], lay["H"]
+    if lock_geometry:
+        refined = geometry_lock(frames, refined, lay)
     fid = fidelity(frames, refined, lay) if fidelity_gate else {}
     # per track colour transform (one per shot: no flicker), from the original vs refined tiles inside the mask
     stats = {}

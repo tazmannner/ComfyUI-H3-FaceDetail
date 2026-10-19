@@ -1,6 +1,6 @@
 {
  "last_node_id": 56,
- "last_link_id": 87,
+ "last_link_id": 88,
  "nodes": [
   {
    "id": 1,
@@ -56,7 +56,7 @@
      "links": [
       4,
       21,
-      69
+      70
      ]
     }
    ],
@@ -90,8 +90,8 @@
      "type": "VAE",
      "links": [
       5,
-      63,
-      70
+      64,
+      71
      ]
     }
    ],
@@ -124,7 +124,7 @@
      "links": [
       37,
       48,
-      84
+      85
      ]
     }
    ],
@@ -157,7 +157,7 @@
      "type": "VAE",
      "links": [
       41,
-      65
+      66
      ]
     }
    ],
@@ -267,7 +267,7 @@
      "links": [
       3,
       25,
-      73
+      74
      ]
     }
    ],
@@ -1237,7 +1237,7 @@
      "name": "IMAGE",
      "type": "IMAGE",
      "links": [
-      55
+      56
      ]
     }
    ],
@@ -1280,7 +1280,7 @@
      "links": [
       44,
       46,
-      64
+      65
      ]
     }
    ],
@@ -1503,7 +1503,8 @@
      "type": "IMAGE",
      "links": [
       51,
-      53
+      52,
+      54
      ]
     }
    ],
@@ -1521,7 +1522,7 @@
    ],
    "size": [
     380,
-    314
+    340
    ],
    "flags": {},
    "order": 7,
@@ -1536,6 +1537,11 @@
      "name": "oracle_hold_map",
      "type": "STRING",
      "link": 50
+    },
+    {
+     "name": "static_images",
+     "type": "IMAGE",
+     "link": 51
     }
    ],
    "outputs": [
@@ -1543,29 +1549,29 @@
      "name": "segment_images",
      "type": "IMAGE",
      "links": [
-      56,
-      60
+      57,
+      61
      ]
     },
     {
      "name": "hold_map",
      "type": "STRING",
      "links": [
-      57
+      58
      ]
     },
     {
      "name": "splice_map",
      "type": "STRING",
      "links": [
-      54
+      55
      ]
     },
     {
      "name": "segment_start",
      "type": "INT",
      "links": [
-      52
+      53
      ]
     },
     {
@@ -1605,12 +1611,12 @@
     {
      "name": "image",
      "type": "IMAGE",
-     "link": 51
+     "link": 52
     },
     {
      "name": "batch_index",
      "type": "INT",
-     "link": 52,
+     "link": 53,
      "widget": {
       "name": "batch_index"
      }
@@ -1651,17 +1657,17 @@
     {
      "name": "baseline",
      "type": "IMAGE",
-     "link": 53
+     "link": 54
     },
     {
      "name": "splice_map",
      "type": "STRING",
-     "link": 54
+     "link": 55
     },
     {
      "name": "segment",
      "type": "IMAGE",
-     "link": 55
+     "link": 56
     }
    ],
    "outputs": [
@@ -1669,8 +1675,8 @@
      "name": "IMAGE",
      "type": "IMAGE",
      "links": [
-      61,
-      85
+      62,
+      86
      ]
     }
    ],
@@ -1701,12 +1707,12 @@
     {
      "name": "images",
      "type": "IMAGE",
-     "link": 56
+     "link": 57
     },
     {
      "name": "hold_map",
      "type": "STRING",
-     "link": 57
+     "link": 58
     }
    ],
    "outputs": [
@@ -1715,7 +1721,7 @@
      "type": "IMAGE",
      "links": [
       17,
-      58
+      59
      ]
     },
     {
@@ -1723,7 +1729,7 @@
      "type": "STRING",
      "links": [
       39,
-      59
+      60
      ]
     },
     {
@@ -1767,17 +1773,17 @@
     {
      "name": "images",
      "type": "IMAGE",
-     "link": 58
+     "link": 59
     },
     {
      "name": "map",
      "type": "STRING",
-     "link": 59
+     "link": 60
     },
     {
      "name": "segment_images",
      "type": "IMAGE",
-     "link": 60
+     "link": 61
     }
    ],
    "outputs": [
@@ -1815,7 +1821,7 @@
     {
      "name": "images",
      "type": "IMAGE",
-     "link": 61
+     "link": 62
     }
    ],
    "outputs": [
@@ -1823,22 +1829,22 @@
      "name": "canvas",
      "type": "IMAGE",
      "links": [
-      62
+      63
      ]
     },
     {
      "name": "regen_mask",
      "type": "MASK",
      "links": [
-      67
+      68
      ]
     },
     {
      "name": "atlas",
      "type": "H3_FACE_ATLAS",
      "links": [
-      77,
-      87
+      78,
+      88
      ]
     },
     {
@@ -1850,14 +1856,14 @@
      "name": "width",
      "type": "INT",
      "links": [
-      71
+      72
      ]
     },
     {
      "name": "height",
      "type": "INT",
      "links": [
-      72
+      73
      ]
     },
     {
@@ -1902,12 +1908,12 @@
     {
      "name": "pixels",
      "type": "IMAGE",
-     "link": 62
+     "link": 63
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 63
+     "link": 64
     }
    ],
    "outputs": [
@@ -1915,7 +1921,7 @@
      "name": "LATENT",
      "type": "LATENT",
      "links": [
-      66
+      67
      ]
     }
    ],
@@ -1929,7 +1935,7 @@
    "type": "VAEEncodeAudio",
    "pos": [
     3000,
-    414
+    440
    ],
    "size": [
     380,
@@ -1942,12 +1948,12 @@
     {
      "name": "audio",
      "type": "AUDIO",
-     "link": 64
+     "link": 65
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 65
+     "link": 66
     }
    ],
    "outputs": [
@@ -1955,7 +1961,7 @@
      "name": "LATENT",
      "type": "LATENT",
      "links": [
-      68
+      69
      ]
     }
    ],
@@ -1982,7 +1988,7 @@
     {
      "name": "samples",
      "type": "LATENT",
-     "link": 66
+     "link": 67
     },
     {
      "name": "oracle_samples",
@@ -1992,12 +1998,12 @@
     {
      "name": "mask",
      "type": "MASK",
-     "link": 67
+     "link": 68
     },
     {
      "name": "audio_latent",
      "type": "LATENT",
-     "link": 68
+     "link": 69
     }
    ],
    "outputs": [
@@ -2005,7 +2011,7 @@
      "name": "LATENT",
      "type": "LATENT",
      "links": [
-      82
+      83
      ]
     }
    ],
@@ -2044,17 +2050,17 @@
     {
      "name": "clip",
      "type": "CLIP",
-     "link": 69
+     "link": 70
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 70
+     "link": 71
     },
     {
      "name": "width",
      "type": "INT",
-     "link": 71,
+     "link": 72,
      "widget": {
       "name": "width"
      }
@@ -2062,7 +2068,7 @@
     {
      "name": "height",
      "type": "INT",
-     "link": 72,
+     "link": 73,
      "widget": {
       "name": "height"
      }
@@ -2083,7 +2089,7 @@
      "name": "positive",
      "type": "CONDITIONING",
      "links": [
-      76
+      77
      ]
     },
     {
@@ -2120,7 +2126,7 @@
     {
      "name": "model",
      "type": "MODEL",
-     "link": 73
+     "link": 74
     }
    ],
    "outputs": [
@@ -2128,7 +2134,7 @@
      "name": "MODEL",
      "type": "MODEL",
      "links": [
-      74
+      75
      ]
     }
    ],
@@ -2158,7 +2164,7 @@
     {
      "name": "model",
      "type": "MODEL",
-     "link": 74
+     "link": 75
     }
    ],
    "outputs": [
@@ -2166,7 +2172,7 @@
      "name": "MODEL",
      "type": "MODEL",
      "links": [
-      75
+      76
      ]
     }
    ],
@@ -2196,12 +2202,12 @@
     {
      "name": "model",
      "type": "MODEL",
-     "link": 75
+     "link": 76
     },
     {
      "name": "conditioning",
      "type": "CONDITIONING",
-     "link": 76
+     "link": 77
     }
    ],
    "outputs": [
@@ -2209,7 +2215,7 @@
      "name": "GUIDER",
      "type": "GUIDER",
      "links": [
-      79
+      80
      ]
     }
    ],
@@ -2238,7 +2244,7 @@
      "name": "NOISE",
      "type": "NOISE",
      "links": [
-      78
+      79
      ]
     }
    ],
@@ -2270,7 +2276,7 @@
      "name": "SAMPLER",
      "type": "SAMPLER",
      "links": [
-      80
+      81
      ]
     }
    ],
@@ -2299,7 +2305,7 @@
     {
      "name": "atlas",
      "type": "H3_FACE_ATLAS",
-     "link": 77
+     "link": 78
     }
    ],
    "outputs": [
@@ -2307,7 +2313,7 @@
      "name": "sigmas",
      "type": "SIGMAS",
      "links": [
-      81
+      82
      ]
     },
     {
@@ -2351,27 +2357,27 @@
     {
      "name": "noise",
      "type": "NOISE",
-     "link": 78
+     "link": 79
     },
     {
      "name": "guider",
      "type": "GUIDER",
-     "link": 79
+     "link": 80
     },
     {
      "name": "sampler",
      "type": "SAMPLER",
-     "link": 80
+     "link": 81
     },
     {
      "name": "sigmas",
      "type": "SIGMAS",
-     "link": 81
+     "link": 82
     },
     {
      "name": "latent_image",
      "type": "LATENT",
-     "link": 82
+     "link": 83
     }
    ],
    "outputs": [
@@ -2379,7 +2385,7 @@
      "name": "output",
      "type": "LATENT",
      "links": [
-      83
+      84
      ]
     },
     {
@@ -2412,12 +2418,12 @@
     {
      "name": "samples",
      "type": "LATENT",
-     "link": 83
+     "link": 84
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 84
+     "link": 85
     }
    ],
    "outputs": [
@@ -2425,7 +2431,7 @@
      "name": "IMAGE",
      "type": "IMAGE",
      "links": [
-      86
+      87
      ]
     }
    ],
@@ -2443,7 +2449,7 @@
    ],
    "size": [
     380,
-    288
+    314
    ],
    "flags": {},
    "order": 20,
@@ -2452,17 +2458,17 @@
     {
      "name": "images",
      "type": "IMAGE",
-     "link": 85
+     "link": 86
     },
     {
      "name": "refined",
      "type": "IMAGE",
-     "link": 86
+     "link": 87
     },
     {
      "name": "atlas",
      "type": "H3_FACE_ATLAS",
-     "link": 87
+     "link": 88
     }
    ],
    "outputs": [
@@ -2479,10 +2485,11 @@
     "Node name for S&R": "H3FaceAtlasStitch"
    },
    "widgets_values": [
-    1.5,
+    1.0,
     3.0,
     1.0,
     1.0,
+    true,
     true
    ],
    "title": "STITCH: faces back into the frames"
@@ -2956,12 +2963,20 @@
    51,
    34,
    0,
+   35,
+   2,
+   "IMAGE"
+  ],
+  [
+   52,
+   34,
+   0,
    36,
    0,
    "IMAGE"
   ],
   [
-   52,
+   53,
    35,
    3,
    36,
@@ -2969,7 +2984,7 @@
    "INT"
   ],
   [
-   53,
+   54,
    34,
    0,
    37,
@@ -2977,7 +2992,7 @@
    "IMAGE"
   ],
   [
-   54,
+   55,
    35,
    2,
    37,
@@ -2985,7 +3000,7 @@
    "STRING"
   ],
   [
-   55,
+   56,
    29,
    0,
    37,
@@ -2993,7 +3008,7 @@
    "IMAGE"
   ],
   [
-   56,
+   57,
    35,
    0,
    38,
@@ -3001,31 +3016,31 @@
    "IMAGE"
   ],
   [
-   57,
+   58,
    35,
    1,
    38,
    1,
    "STRING"
-  ],
-  [
-   58,
-   38,
-   0,
-   39,
-   0,
-   "IMAGE"
   ],
   [
    59,
    38,
+   0,
+   39,
+   0,
+   "IMAGE"
+  ],
+  [
+   60,
+   38,
    1,
    39,
    1,
    "STRING"
   ],
   [
-   60,
+   61,
    35,
    0,
    39,
@@ -3033,7 +3048,7 @@
    "IMAGE"
   ],
   [
-   61,
+   62,
    37,
    0,
    40,
@@ -3041,7 +3056,7 @@
    "IMAGE"
   ],
   [
-   62,
+   63,
    40,
    0,
    41,
@@ -3049,7 +3064,7 @@
    "IMAGE"
   ],
   [
-   63,
+   64,
    3,
    0,
    41,
@@ -3057,7 +3072,7 @@
    "VAE"
   ],
   [
-   64,
+   65,
    30,
    0,
    42,
@@ -3065,7 +3080,7 @@
    "AUDIO"
   ],
   [
-   65,
+   66,
    5,
    0,
    42,
@@ -3073,7 +3088,7 @@
    "VAE"
   ],
   [
-   66,
+   67,
    41,
    0,
    43,
@@ -3081,7 +3096,7 @@
    "LATENT"
   ],
   [
-   67,
+   68,
    40,
    1,
    43,
@@ -3089,7 +3104,7 @@
    "MASK"
   ],
   [
-   68,
+   69,
    42,
    0,
    43,
@@ -3097,7 +3112,7 @@
    "LATENT"
   ],
   [
-   69,
+   70,
    2,
    0,
    44,
@@ -3105,7 +3120,7 @@
    "CLIP"
   ],
   [
-   70,
+   71,
    3,
    0,
    44,
@@ -3113,7 +3128,7 @@
    "VAE"
   ],
   [
-   71,
+   72,
    40,
    4,
    44,
@@ -3121,7 +3136,7 @@
    "INT"
   ],
   [
-   72,
+   73,
    40,
    5,
    44,
@@ -3129,7 +3144,7 @@
    "INT"
   ],
   [
-   73,
+   74,
    8,
    0,
    45,
@@ -3137,7 +3152,7 @@
    "MODEL"
   ],
   [
-   74,
+   75,
    45,
    0,
    46,
@@ -3145,7 +3160,7 @@
    "MODEL"
   ],
   [
-   75,
+   76,
    46,
    0,
    47,
@@ -3153,7 +3168,7 @@
    "MODEL"
   ],
   [
-   76,
+   77,
    44,
    0,
    47,
@@ -3161,7 +3176,7 @@
    "CONDITIONING"
   ],
   [
-   77,
+   78,
    40,
    2,
    50,
@@ -3169,7 +3184,7 @@
    "H3_FACE_ATLAS"
   ],
   [
-   78,
+   79,
    48,
    0,
    51,
@@ -3177,7 +3192,7 @@
    "NOISE"
   ],
   [
-   79,
+   80,
    47,
    0,
    51,
@@ -3185,7 +3200,7 @@
    "GUIDER"
   ],
   [
-   80,
+   81,
    49,
    0,
    51,
@@ -3193,7 +3208,7 @@
    "SAMPLER"
   ],
   [
-   81,
+   82,
    50,
    0,
    51,
@@ -3201,7 +3216,7 @@
    "SIGMAS"
   ],
   [
-   82,
+   83,
    43,
    0,
    51,
@@ -3209,7 +3224,7 @@
    "LATENT"
   ],
   [
-   83,
+   84,
    51,
    0,
    52,
@@ -3217,7 +3232,7 @@
    "LATENT"
   ],
   [
-   84,
+   85,
    4,
    0,
    52,
@@ -3225,7 +3240,7 @@
    "VAE"
   ],
   [
-   85,
+   86,
    37,
    0,
    53,
@@ -3233,7 +3248,7 @@
    "IMAGE"
   ],
   [
-   86,
+   87,
    52,
    0,
    53,
@@ -3241,7 +3256,7 @@
    "IMAGE"
   ],
   [
-   87,
+   88,
    40,
    2,
    53,
