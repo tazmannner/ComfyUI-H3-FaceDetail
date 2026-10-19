@@ -78,6 +78,7 @@ Example workflows:
 
 - `onnxruntime` and `opencv` (both already in a normal ComfyUI install)
 - ComfyUI-MAINodes (H3V2VInit)
+- for the two Fast De-rope example workflows: ComfyUI-H3-FastDerope at cf02e34 or later (Motion Gate `static_images`)
 - the detector: `models/anime_face_detect_v1.4_s/model.onnx` from
   https://huggingface.co/deepghs/anime_face_detection (folder `face_detect_v1.4_s`, sha256 `403b5bc9…6891483`)
 
