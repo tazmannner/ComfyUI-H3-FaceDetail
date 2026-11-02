@@ -185,19 +185,30 @@ def stitch(frames, refined, lay, mask_scale=1.0, feather=3.0, color_match=1.0, b
     fid = fidelity(frames, refined, lay) if fidelity_gate else {}
     # per track colour transform (one per shot: no flicker), from the original vs refined tiles inside the mask
     stats = {}
-    for k in range(lay["nslots"]):
+
+    def sample(k, i):
+        e = lay["slots"][k][i]
+        if e is None:
+            return
+        t, j = e
         ox, oy = lay["origin"][k]
+        M = _crop_matrix(t["cx"][j], t["cy"][j], t["side"][j], T)
+        orig = cv2.warpAffine(frames[i], M, (T, T), flags=cv2.INTER_CUBIC | cv2.WARP_INVERSE_MAP,
+                              borderMode=cv2.BORDER_REPLICATE)
+        m = _tile_mask(T, t["side"][j], t["fs"][j], mask_scale, 0.5) > 0.5
+        st = stats.setdefault(id(t), [[], []])
+        st[0].append(orig[m]); st[1].append(refined[i, oy:oy + T, ox:ox + T][m])
+
+    for k in range(lay["nslots"]):
         for i in range(0, n, 4):  # colour stats: every 4th frame is plenty for one transform per shot
+            sample(k, i)
+    # a track that only lives between those frames (a 1-3 frame blip, e.g. a face on a photo) samples its own frames
+    sampled = set(stats)
+    for k in range(lay["nslots"]):
+        for i in range(n):
             e = lay["slots"][k][i]
-            if e is None:
-                continue
-            t, j = e
-            M = _crop_matrix(t["cx"][j], t["cy"][j], t["side"][j], T)
-            orig = cv2.warpAffine(frames[i], M, (T, T), flags=cv2.INTER_CUBIC | cv2.WARP_INVERSE_MAP,
-                                  borderMode=cv2.BORDER_REPLICATE)
-            m = _tile_mask(T, t["side"][j], t["fs"][j], mask_scale, 0.5) > 0.5
-            st = stats.setdefault(id(t), [[], []])
-            st[0].append(orig[m]); st[1].append(refined[i, oy:oy + T, ox:ox + T][m])
+            if e is not None and id(e[0]) not in sampled:
+                sample(k, i)
     xf = {}
     for key, (o, r) in stats.items():
         o = np.concatenate(o); r = np.concatenate(r)
