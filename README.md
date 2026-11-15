@@ -74,11 +74,20 @@ In the full Fast De-rope + face fix + Anime Cadence graph a 5 s clip took 141-15
 | H3 Face Atlas (wide-shot faces) | `tile` 512, `crop_factor` 2.6 (face ~40% of its tile), `context` + `context_scale` 0.5, `min_magnification` 1.4 (skip big faces), `confidence` 0.2 |
 | H3 Face Atlas Sigmas (by face size) | `steps` 4, `sigma_at_3x` 0.70, `sigma_at_5x` 0.80, `sigma_at_10x` 0.95 |
 | H3 Face Atlas Stitch | `mask_scale` 1.0 (face only), `feather` 3 px, `color_match` 1.0, `geometry_lock` on, `fidelity_gate` on |
+| H3 Face Atlas Compact (skip frames without faces) | optional speed-up: drops the canvas frames that hold no face tile before the redraw. `min_gap` 17 (shorter gaps are kept). Outputs `canvas`, `regen_mask`, `audio` (cut to the same frames, only for the redraw to hear), `length`, `compact` |
+| H3 Face Atlas Decode (after Compact) | VAE Decode that puts the redrawn frames back at their place in the clip |
 
 Wiring: `canvas` → VAEEncode → H3V2VInit (`mask` = `regen_mask`, `time_varying` on, `audio_latent` = VAEEncodeAudio of
 the render's audio, audio_mode *pin*) → SamplerCustomAdvanced (`sigmas` from H3 Face Atlas Sigmas; the
 MiniMaxH3ImageToVideo cond uses the atlas `width` / `height` and the clip length) → VAEDecode → Stitch.
 Use the **same prompt and style LoRA** as the render.
+
+**Skipping frames without small faces (v0.1.2).** The redraw runs over the whole clip even where no face needs fixing
+(close-ups, shots without characters). Put **H3 Face Atlas Compact** after the atlas: its `canvas` goes to VAEEncode,
+its `regen_mask` to H3V2VInit, its `audio` to VAEEncodeAudio, its `length` to the conditioning's `length`; replace the
+VAEDecode with **H3 Face Atlas Decode** (`compact` wired) and stitch as before. On a 10 s fight at 1 MP where 95 of 260
+frames hold no small face, the face pass's encode + redraw + decode went from 147 s to 92 s; the redrawn faces differ
+from a full-length redraw only by sampling noise. Clips with small faces in every frame pass through unchanged.
 
 Example workflows:
 - `example_workflows/h3_wide_face_fix.json` fixes any existing H3 video.

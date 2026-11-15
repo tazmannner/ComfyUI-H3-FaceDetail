@@ -1,6 +1,6 @@
 import numpy as np
 import torch
-from .facedetail import detect, track, atlas
+from .facedetail import detect, track, atlas, compact
 
 CAT = "H3 FaceDetail"
 
@@ -144,6 +144,90 @@ class H3FaceAtlasSigmas:
 
 
 atlas_mod = atlas
-NODE_CLASS_MAPPINGS = {"H3FaceAtlas": H3FaceAtlas, "H3FaceAtlasStitch": H3FaceAtlasStitch, "H3FaceAtlasSigmas": H3FaceAtlasSigmas}
+class H3FaceAtlasCompact:
+    DESCRIPTION = ("Speed: drops the canvas frames that hold no face tile (close-ups, shots without small faces) before "
+                   "the redraw, so the encode, the H3 pass and the decode only run on frames with a face to fix. Wire "
+                   "canvas / regen_mask / audio from here into the redraw, `length` into its conditioning, and decode "
+                   "with H3 Face Atlas Decode, which puts the frames back in place. Clips with small faces in every "
+                   "frame pass through unchanged.")
+    RETURN_TYPES = ("IMAGE", "MASK", "AUDIO", "H3_FACE_COMPACT", "INT", "STRING")
+    RETURN_NAMES = ("canvas", "regen_mask", "audio", "compact", "length", "report")
+    FUNCTION = "run"
+    CATEGORY = CAT
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {"required": {
+            "canvas": ("IMAGE",), "regen_mask": ("MASK",), "atlas": ("H3_FACE_ATLAS",),
+            "min_gap": ("INT", {"default": 17, "min": 0, "max": 240,
+                        "tooltip": "gaps without a face tile up to this many frames are kept (a jump cut in the canvas "
+                                   "for a few frames saved isn't worth it)"}),
+        }, "optional": {
+            "audio": ("AUDIO", {"tooltip": "the clip's audio, when the redraw pins it: cut to the same frames (only the "
+                                           "redraw hears this copy; the clip's soundtrack is not touched)"}),
+            "fps": ("FLOAT", {"default": 24.0, "min": 1.0, "max": 120.0}),
+        }}
+
+    def run(self, canvas, regen_mask, atlas, min_gap, audio=None, fps=24.0):
+        n = canvas.shape[0]
+        pl = compact.plan(atlas, min_gap) if atlas.get("nslots", 0) and atlas.get("n") == n else None
+        if pl is None:
+            rep = f"all {n} frames kept (nothing to drop)"
+            print("[H3FaceAtlasCompact] " + rep)
+            return (canvas, regen_mask, audio, {"n": n, "idx": None}, n, rep)
+        idx, k = pl
+        ti = torch.from_numpy(idx)
+        mask = regen_mask[ti] if regen_mask.shape[0] == n else regen_mask
+        if mask.shape[0] == len(idx) and len(idx) > k:
+            mask = mask.clone()
+            mask[k:] = 0                      # the padding frames are frozen copies, nothing to redraw
+        out_audio = audio
+        if audio is not None:
+            w, sr = audio["waveform"], audio["sample_rate"]
+            spf = sr / fps
+            parts = []
+            for j, i in enumerate(idx):
+                a, b = int(round(i * spf)), int(round((i + 1) * spf))
+                seg = w[..., a:b]
+                want = int(round((j + 1) * spf)) - int(round(j * spf))
+                if j >= k:
+                    seg = torch.zeros_like(w[..., :want])   # silence under the padding frames
+                elif seg.shape[-1] < want:
+                    seg = torch.nn.functional.pad(seg, (0, want - seg.shape[-1]))
+                parts.append(seg[..., :want])
+            out_audio = dict(audio, waveform=torch.cat(parts, dim=-1))
+        rep = f"redraw {k} of {n} frames (+{len(idx) - k} padding to {len(idx)}): {n - k} frames hold no face tile"
+        print("[H3FaceAtlasCompact] " + rep)
+        return (canvas[ti], mask, out_audio, {"n": n, "idx": idx[:k].tolist()}, len(idx), rep)
+
+
+class H3FaceAtlasDecode:
+    DESCRIPTION = ("VAE Decode for the face canvas after H3 Face Atlas Compact: decodes the redrawn frames and puts each "
+                   "back at its place in the clip (the skipped frames stay empty; the stitch never reads them).")
+    RETURN_TYPES = ("IMAGE",)
+    FUNCTION = "run"
+    CATEGORY = CAT
+
+    @classmethod
+    def INPUT_TYPES(cls):
+        return {"required": {"samples": ("LATENT",), "vae": ("VAE",), "compact": ("H3_FACE_COMPACT",)}}
+
+    def run(self, samples, vae, compact):
+        import nodes as comfy_nodes
+        dec = comfy_nodes.VAEDecode().decode(vae, samples)[0]
+        if compact.get("idx") is None:
+            return (dec,)
+        idx = torch.tensor(compact["idx"])
+        if dec.shape[0] < len(idx):
+            raise ValueError(f"decoded {dec.shape[0]} frames, the compact map has {len(idx)}")
+        out = torch.zeros((compact["n"],) + tuple(dec.shape[1:]), dtype=dec.dtype)
+        out[idx] = dec[:len(idx)]
+        return (out,)
+
+
+NODE_CLASS_MAPPINGS = {"H3FaceAtlas": H3FaceAtlas, "H3FaceAtlasStitch": H3FaceAtlasStitch, "H3FaceAtlasSigmas": H3FaceAtlasSigmas,
+                       "H3FaceAtlasCompact": H3FaceAtlasCompact, "H3FaceAtlasDecode": H3FaceAtlasDecode}
 NODE_DISPLAY_NAME_MAPPINGS = {"H3FaceAtlas": "H3 Face Atlas (wide-shot faces)", "H3FaceAtlasStitch": "H3 Face Atlas Stitch",
-                              "H3FaceAtlasSigmas": "H3 Face Atlas Sigmas (by face size)"}
+                              "H3FaceAtlasSigmas": "H3 Face Atlas Sigmas (by face size)",
+                              "H3FaceAtlasCompact": "H3 Face Atlas Compact (skip frames without faces)",
+                              "H3FaceAtlasDecode": "H3 Face Atlas Decode (after Compact)"}
