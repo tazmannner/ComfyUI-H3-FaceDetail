@@ -275,3 +275,11 @@ def preview(frames, lay):
             cv2.rectangle(out[i], (int(cx - s / 2), int(cy - s / 2)), (int(cx + s / 2), int(cy + s / 2)), c, 1)
             cv2.rectangle(out[i], (int(cx - fs / 2), int(cy - fs / 2)), (int(cx + fs / 2), int(cy + fs / 2)), c, 1)
     return out.astype(np.float32) / 255
+
+
+# stitch, geometry_lock and fidelity run their per-tile / per-frame loops on CPU threads (parallel.py: same arithmetic,
+# bit-identical output). The single-threaded functions above stay as the reference, reachable as SERIAL[name].
+SERIAL = {"stitch": stitch, "geometry_lock": geometry_lock, "fidelity": fidelity}
+from . import parallel as _parallel, track as _track  # noqa: E402
+import sys as _sys  # noqa: E402
+stitch, geometry_lock, fidelity = _parallel.make(_sys.modules[__name__], _track)

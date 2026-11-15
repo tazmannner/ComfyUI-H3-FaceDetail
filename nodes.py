@@ -38,10 +38,13 @@ class H3FaceAtlas:
                           "tooltip": "gaussian blur of the magnified tile, in source pixels: removes the magnified pixel grid"}),
             "sharpen": ("FLOAT", {"default": 0.0, "min": 0.0, "max": 3.0, "step": 0.1,
                         "tooltip": "unsharp mask on the magnified tiles before the redraw (scaled to the magnification)"}),
+            "make_preview": ("BOOLEAN", {"default": True,
+                             "tooltip": "off: the `preview` output is only its first frame. Turn it off when nothing shows "
+                                        "the preview: a full-size copy of the clip otherwise stays in ComfyUI's cache"}),
         }}
 
-    def run(self, images, tile, crop_factor, context, min_magnification, max_faces, confidence, detect_size, context_scale=1.0, sharpen=0.0, presmooth=0.0, flatten=0.0):
-        fr = images.cpu().numpy().astype(np.float32)
+    def run(self, images, tile, crop_factor, context, min_magnification, max_faces, confidence, detect_size, context_scale=1.0, sharpen=0.0, presmooth=0.0, flatten=0.0, make_preview=True):
+        fr = images.cpu().numpy().astype(np.float32, copy=False)   # only read here: no second copy of the clip
         n, H, W = fr.shape[:3]
         # detect every 2nd frame (tracks are interpolated + smoothed anyway); the odd frames get no detections
         dets = [detect.detect(f, size=detect_size, conf=confidence) if i % 2 == 0 or i == n - 1 else []
@@ -61,7 +64,8 @@ class H3FaceAtlas:
         canvas, mask = atlas.build(fr, lay, sharpen=sharpen, presmooth=presmooth, flatten=flatten)
         rep.append(f"canvas {lay['cw']}x{lay['ch']} tile {lay['T']}")
         print("[H3FaceAtlas]\n" + "\n".join(rep))
-        return (torch.from_numpy(canvas), torch.from_numpy(mask), lay, torch.from_numpy(atlas.preview(fr, lay)),
+        prev = atlas.preview(fr, lay) if make_preview else atlas.preview(fr[:1], dict(lay, n=1))
+        return (torch.from_numpy(canvas), torch.from_numpy(mask), lay, torch.from_numpy(prev),
                 lay["cw"], lay["ch"], "\n".join(rep))
 
 
@@ -92,8 +96,8 @@ class H3FaceAtlasStitch:
     def run(self, images, refined, atlas, mask_scale, feather, color_match, blend, fidelity_gate=True, geometry_lock=True):
         if atlas["nslots"] == 0:
             return (images,)
-        fr = images.cpu().numpy().astype(np.float32)
-        rf = refined.cpu().numpy().astype(np.float32)
+        fr = images.cpu().numpy().astype(np.float32, copy=False)   # both are only read: the stitch writes a new array
+        rf = refined.cpu().numpy().astype(np.float32, copy=False)
         if rf.shape[0] != fr.shape[0]:
             raise ValueError(f"refined has {rf.shape[0]} frames, images {fr.shape[0]}")
         if rf.shape[1:3] != (atlas["ch"], atlas["cw"]):
