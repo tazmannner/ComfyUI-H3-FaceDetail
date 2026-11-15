@@ -1,6 +1,6 @@
 {
- "last_node_id": 56,
- "last_link_id": 88,
+ "last_node_id": 57,
+ "last_link_id": 94,
  "nodes": [
   {
    "id": 1,
@@ -56,7 +56,7 @@
      "links": [
       4,
       21,
-      70
+      74
      ]
     }
    ],
@@ -90,8 +90,8 @@
      "type": "VAE",
      "links": [
       5,
-      64,
-      71
+      68,
+      75
      ]
     }
    ],
@@ -124,7 +124,7 @@
      "links": [
       37,
       48,
-      85
+      90
      ]
     }
    ],
@@ -157,7 +157,7 @@
      "type": "VAE",
      "links": [
       41,
-      66
+      70
      ]
     }
    ],
@@ -267,7 +267,7 @@
      "links": [
       3,
       25,
-      74
+      79
      ]
     }
    ],
@@ -1280,7 +1280,7 @@
      "links": [
       44,
       46,
-      65
+      66
      ]
     }
    ],
@@ -1294,21 +1294,26 @@
    "id": 31,
    "type": "AnimeCadence",
    "pos": [
-    8880,
+    9300,
     60
    ],
    "size": [
     380,
-    262
+    314
    ],
    "flags": {},
-   "order": 21,
+   "order": 22,
    "mode": 0,
    "inputs": [
     {
      "name": "images",
      "type": "IMAGE",
      "link": 42
+    },
+    {
+     "name": "drawing_starts",
+     "type": "STRING",
+     "link": null
     }
    ],
    "outputs": [
@@ -1339,7 +1344,8 @@
     2,
     4,
     1.0,
-    0
+    0,
+    "hold"
    ],
    "title": "ANIME CADENCE (auto 2s/3s)"
   },
@@ -1347,15 +1353,15 @@
    "id": 32,
    "type": "VHS_VideoCombine",
    "pos": [
-    8880,
-    362
+    9300,
+    414
    ],
    "size": [
     380,
     392
    ],
    "flags": {},
-   "order": 21,
+   "order": 22,
    "mode": 0,
    "inputs": [
     {
@@ -1411,7 +1417,7 @@
    "id": 33,
    "type": "VHS_VideoCombine",
    "pos": [
-    9300,
+    9720,
     60
    ],
    "size": [
@@ -1419,7 +1425,7 @@
     392
    ],
    "flags": {},
-   "order": 22,
+   "order": 23,
    "mode": 0,
    "inputs": [
     {
@@ -1522,7 +1528,7 @@
    ],
    "size": [
     380,
-    340
+    366
    ],
    "flags": {},
    "order": 7,
@@ -1590,7 +1596,8 @@
     4,
     12,
     0.03,
-    8
+    8,
+    12
    ]
   },
   {
@@ -1648,7 +1655,7 @@
    ],
    "size": [
     380,
-    236
+    262
    ],
    "flags": {},
    "order": 14,
@@ -1676,7 +1683,7 @@
      "type": "IMAGE",
      "links": [
       62,
-      86
+      92
      ]
     }
    ],
@@ -1742,6 +1749,11 @@
     },
     {
      "name": "report",
+     "type": "STRING",
+     "links": []
+    },
+    {
+     "name": "audio_hold_map",
      "type": "STRING",
      "links": []
     }
@@ -1813,7 +1825,7 @@
    ],
    "size": [
     380,
-    392
+    418
    ],
    "flags": {},
    "order": 15,
@@ -1837,15 +1849,16 @@
      "name": "regen_mask",
      "type": "MASK",
      "links": [
-      68
+      64
      ]
     },
     {
      "name": "atlas",
      "type": "H3_FACE_ATLAS",
      "links": [
-      78,
-      88
+      65,
+      83,
+      94
      ]
     },
     {
@@ -1857,14 +1870,14 @@
      "name": "width",
      "type": "INT",
      "links": [
-      72
+      76
      ]
     },
     {
      "name": "height",
      "type": "INT",
      "links": [
-      73
+      77
      ]
     },
     {
@@ -1887,15 +1900,103 @@
     0.5,
     0.0,
     0.0,
-    0.0
+    0.0,
+    true
    ],
    "title": "FACE ATLAS: every small face magnified into one canvas (+ pinned frame context)"
   },
   {
    "id": 41,
-   "type": "VAEEncode",
+   "type": "H3FaceAtlasCompact",
    "pos": [
     6780,
+    60
+   ],
+   "size": [
+    380,
+    236
+   ],
+   "flags": {},
+   "order": 16,
+   "mode": 0,
+   "inputs": [
+    {
+     "name": "canvas",
+     "type": "IMAGE",
+     "link": 63
+    },
+    {
+     "name": "regen_mask",
+     "type": "MASK",
+     "link": 64
+    },
+    {
+     "name": "atlas",
+     "type": "H3_FACE_ATLAS",
+     "link": 65
+    },
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "link": 66
+    }
+   ],
+   "outputs": [
+    {
+     "name": "canvas",
+     "type": "IMAGE",
+     "links": [
+      67
+     ]
+    },
+    {
+     "name": "regen_mask",
+     "type": "MASK",
+     "links": [
+      72
+     ]
+    },
+    {
+     "name": "audio",
+     "type": "AUDIO",
+     "links": [
+      69
+     ]
+    },
+    {
+     "name": "compact",
+     "type": "H3_FACE_COMPACT",
+     "links": [
+      91
+     ]
+    },
+    {
+     "name": "length",
+     "type": "INT",
+     "links": [
+      78
+     ]
+    },
+    {
+     "name": "report",
+     "type": "STRING",
+     "links": []
+    }
+   ],
+   "properties": {
+    "Node name for S&R": "H3FaceAtlasCompact"
+   },
+   "widgets_values": [
+    17,
+    24.0
+   ],
+   "title": "SPEED: skip the frames that hold no small face (close-ups, empty shots); the redraw runs on the rest"
+  },
+  {
+   "id": 42,
+   "type": "VAEEncode",
+   "pos": [
+    7200,
     60
    ],
    "size": [
@@ -1903,18 +2004,18 @@
     132
    ],
    "flags": {},
-   "order": 16,
+   "order": 17,
    "mode": 0,
    "inputs": [
     {
      "name": "pixels",
      "type": "IMAGE",
-     "link": 63
+     "link": 67
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 64
+     "link": 68
     }
    ],
    "outputs": [
@@ -1922,7 +2023,7 @@
      "name": "LATENT",
      "type": "LATENT",
      "links": [
-      67
+      71
      ]
     }
    ],
@@ -1932,29 +2033,29 @@
    "widgets_values": []
   },
   {
-   "id": 42,
+   "id": 43,
    "type": "VAEEncodeAudio",
    "pos": [
-    3000,
-    440
+    7200,
+    232
    ],
    "size": [
     380,
     132
    ],
    "flags": {},
-   "order": 7,
+   "order": 17,
    "mode": 0,
    "inputs": [
     {
      "name": "audio",
      "type": "AUDIO",
-     "link": 65
+     "link": 69
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 66
+     "link": 70
     }
    ],
    "outputs": [
@@ -1962,7 +2063,7 @@
      "name": "LATENT",
      "type": "LATENT",
      "links": [
-      69
+      73
      ]
     }
    ],
@@ -1972,10 +2073,10 @@
    "widgets_values": []
   },
   {
-   "id": 43,
+   "id": 44,
    "type": "H3V2VInit",
    "pos": [
-    7200,
+    7620,
     60
    ],
    "size": [
@@ -1983,13 +2084,13 @@
     444
    ],
    "flags": {},
-   "order": 17,
+   "order": 18,
    "mode": 0,
    "inputs": [
     {
      "name": "samples",
      "type": "LATENT",
-     "link": 67
+     "link": 71
     },
     {
      "name": "oracle_samples",
@@ -1999,12 +2100,12 @@
     {
      "name": "mask",
      "type": "MASK",
-     "link": 68
+     "link": 72
     },
     {
      "name": "audio_latent",
      "type": "LATENT",
-     "link": 69
+     "link": 73
     }
    ],
    "outputs": [
@@ -2012,7 +2113,7 @@
      "name": "LATENT",
      "type": "LATENT",
      "links": [
-      83
+      88
      ]
     }
    ],
@@ -2034,34 +2135,34 @@
    "title": "V2V init: redraw only the face tiles, pass-1 audio pinned (lips stay in sync)"
   },
   {
-   "id": 44,
+   "id": 45,
    "type": "MiniMaxH3ImageToVideo",
    "pos": [
-    6780,
-    232
+    7200,
+    404
    ],
    "size": [
     380,
-    340
+    366
    ],
    "flags": {},
-   "order": 16,
+   "order": 17,
    "mode": 0,
    "inputs": [
     {
      "name": "clip",
      "type": "CLIP",
-     "link": 70
+     "link": 74
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 71
+     "link": 75
     },
     {
      "name": "width",
      "type": "INT",
-     "link": 72,
+     "link": 76,
      "widget": {
       "name": "width"
      }
@@ -2069,9 +2170,17 @@
     {
      "name": "height",
      "type": "INT",
-     "link": 73,
+     "link": 77,
      "widget": {
       "name": "height"
+     }
+    },
+    {
+     "name": "length",
+     "type": "INT",
+     "link": 78,
+     "widget": {
+      "name": "length"
      }
     },
     {
@@ -2090,7 +2199,7 @@
      "name": "positive",
      "type": "CONDITIONING",
      "links": [
-      77
+      82
      ]
     },
     {
@@ -2110,7 +2219,7 @@
    ]
   },
   {
-   "id": 45,
+   "id": 46,
    "type": "LoraLoaderModelOnly",
    "pos": [
     1320,
@@ -2127,7 +2236,7 @@
     {
      "name": "model",
      "type": "MODEL",
-     "link": 74
+     "link": 79
     }
    ],
    "outputs": [
@@ -2135,7 +2244,7 @@
      "name": "MODEL",
      "type": "MODEL",
      "links": [
-      75
+      80
      ]
     }
    ],
@@ -2148,7 +2257,7 @@
    ]
   },
   {
-   "id": 46,
+   "id": 47,
    "type": "MiniMaxH3SigmaShift",
    "pos": [
     1740,
@@ -2165,7 +2274,7 @@
     {
      "name": "model",
      "type": "MODEL",
-     "link": 75
+     "link": 80
     }
    ],
    "outputs": [
@@ -2173,7 +2282,7 @@
      "name": "MODEL",
      "type": "MODEL",
      "links": [
-      76
+      81
      ]
     }
    ],
@@ -2186,10 +2295,10 @@
    ]
   },
   {
-   "id": 47,
+   "id": 48,
    "type": "BasicGuider",
    "pos": [
-    7200,
+    7620,
     544
    ],
    "size": [
@@ -2197,18 +2306,18 @@
     132
    ],
    "flags": {},
-   "order": 17,
+   "order": 18,
    "mode": 0,
    "inputs": [
     {
      "name": "model",
      "type": "MODEL",
-     "link": 76
+     "link": 81
     },
     {
      "name": "conditioning",
      "type": "CONDITIONING",
-     "link": 77
+     "link": 82
     }
    ],
    "outputs": [
@@ -2216,7 +2325,7 @@
      "name": "GUIDER",
      "type": "GUIDER",
      "links": [
-      80
+      85
      ]
     }
    ],
@@ -2226,7 +2335,7 @@
    "widgets_values": []
   },
   {
-   "id": 48,
+   "id": 49,
    "type": "RandomNoise",
    "pos": [
     60,
@@ -2245,7 +2354,7 @@
      "name": "NOISE",
      "type": "NOISE",
      "links": [
-      79
+      84
      ]
     }
    ],
@@ -2258,7 +2367,7 @@
    ]
   },
   {
-   "id": 49,
+   "id": 50,
    "type": "KSamplerSelect",
    "pos": [
     60,
@@ -2277,7 +2386,7 @@
      "name": "SAMPLER",
      "type": "SAMPLER",
      "links": [
-      81
+      86
      ]
     }
    ],
@@ -2289,11 +2398,11 @@
    ]
   },
   {
-   "id": 50,
+   "id": 51,
    "type": "H3FaceAtlasSigmas",
    "pos": [
     6780,
-    612
+    336
    ],
    "size": [
     380,
@@ -2306,7 +2415,7 @@
     {
      "name": "atlas",
      "type": "H3_FACE_ATLAS",
-     "link": 78
+     "link": 83
     }
    ],
    "outputs": [
@@ -2314,7 +2423,7 @@
      "name": "sigmas",
      "type": "SIGMAS",
      "links": [
-      82
+      87
      ]
     },
     {
@@ -2341,10 +2450,10 @@
    "title": "redraw depth from face size (tiny faces redraw deeper)"
   },
   {
-   "id": 51,
+   "id": 52,
    "type": "SamplerCustomAdvanced",
    "pos": [
-    7620,
+    8040,
     60
    ],
    "size": [
@@ -2352,33 +2461,33 @@
     210
    ],
    "flags": {},
-   "order": 18,
+   "order": 19,
    "mode": 0,
    "inputs": [
     {
      "name": "noise",
      "type": "NOISE",
-     "link": 79
+     "link": 84
     },
     {
      "name": "guider",
      "type": "GUIDER",
-     "link": 80
+     "link": 85
     },
     {
      "name": "sampler",
      "type": "SAMPLER",
-     "link": 81
+     "link": 86
     },
     {
      "name": "sigmas",
      "type": "SIGMAS",
-     "link": 82
+     "link": 87
     },
     {
      "name": "latent_image",
      "type": "LATENT",
-     "link": 83
+     "link": 88
     }
    ],
    "outputs": [
@@ -2386,7 +2495,7 @@
      "name": "output",
      "type": "LATENT",
      "links": [
-      84
+      89
      ]
     },
     {
@@ -2402,29 +2511,34 @@
    "title": "FACE PASS (DMAD turbo, 4 steps)"
   },
   {
-   "id": 52,
-   "type": "VAEDecode",
+   "id": 53,
+   "type": "H3FaceAtlasDecode",
    "pos": [
-    8040,
+    8460,
     60
    ],
    "size": [
     380,
-    132
+    158
    ],
    "flags": {},
-   "order": 19,
+   "order": 20,
    "mode": 0,
    "inputs": [
     {
      "name": "samples",
      "type": "LATENT",
-     "link": 84
+     "link": 89
     },
     {
      "name": "vae",
      "type": "VAE",
-     "link": 85
+     "link": 90
+    },
+    {
+     "name": "compact",
+     "type": "H3_FACE_COMPACT",
+     "link": 91
     }
    ],
    "outputs": [
@@ -2432,20 +2546,21 @@
      "name": "IMAGE",
      "type": "IMAGE",
      "links": [
-      87
+      93
      ]
     }
    ],
    "properties": {
-    "Node name for S&R": "VAEDecode"
+    "Node name for S&R": "H3FaceAtlasDecode"
    },
-   "widgets_values": []
+   "widgets_values": [],
+   "title": "decode + put the redrawn frames back at their place in the clip"
   },
   {
-   "id": 53,
+   "id": 54,
    "type": "H3FaceAtlasStitch",
    "pos": [
-    8460,
+    8880,
     60
    ],
    "size": [
@@ -2453,23 +2568,23 @@
     314
    ],
    "flags": {},
-   "order": 20,
+   "order": 21,
    "mode": 0,
    "inputs": [
     {
      "name": "images",
      "type": "IMAGE",
-     "link": 86
+     "link": 92
     },
     {
      "name": "refined",
      "type": "IMAGE",
-     "link": 87
+     "link": 93
     },
     {
      "name": "atlas",
      "type": "H3_FACE_ATLAS",
-     "link": 88
+     "link": 94
     }
    ],
    "outputs": [
@@ -2496,7 +2611,7 @@
    "title": "STITCH: faces back into the frames"
   },
   {
-   "id": 54,
+   "id": 55,
    "type": "Note",
    "pos": [
     60,
@@ -2517,7 +2632,7 @@
    ]
   },
   {
-   "id": 55,
+   "id": 56,
    "type": "Note",
    "pos": [
     580,
@@ -2538,7 +2653,7 @@
    ]
   },
   {
-   "id": 56,
+   "id": 57,
    "type": "Note",
    "pos": [
     1100,
@@ -2890,7 +3005,7 @@
   ],
   [
    42,
-   53,
+   54,
    0,
    31,
    0,
@@ -2898,7 +3013,7 @@
   ],
   [
    43,
-   53,
+   54,
    0,
    32,
    0,
@@ -3066,102 +3181,134 @@
   ],
   [
    64,
-   3,
-   0,
+   40,
+   1,
    41,
    1,
-   "VAE"
+   "MASK"
   ],
   [
    65,
-   30,
-   0,
-   42,
-   0,
-   "AUDIO"
+   40,
+   2,
+   41,
+   2,
+   "H3_FACE_ATLAS"
   ],
   [
    66,
-   5,
+   30,
    0,
-   42,
-   1,
-   "VAE"
+   41,
+   3,
+   "AUDIO"
   ],
   [
    67,
    41,
    0,
+   42,
+   0,
+   "IMAGE"
+  ],
+  [
+   68,
+   3,
+   0,
+   42,
+   1,
+   "VAE"
+  ],
+  [
+   69,
+   41,
+   2,
    43,
+   0,
+   "AUDIO"
+  ],
+  [
+   70,
+   5,
+   0,
+   43,
+   1,
+   "VAE"
+  ],
+  [
+   71,
+   42,
+   0,
+   44,
    0,
    "LATENT"
   ],
   [
-   68,
-   40,
+   72,
+   41,
    1,
-   43,
+   44,
    2,
    "MASK"
   ],
   [
-   69,
-   42,
-   0,
+   73,
    43,
+   0,
+   44,
    3,
    "LATENT"
   ],
   [
-   70,
+   74,
    2,
    0,
-   44,
+   45,
    0,
    "CLIP"
   ],
   [
-   71,
+   75,
    3,
    0,
-   44,
+   45,
    1,
    "VAE"
   ],
   [
-   72,
+   76,
    40,
    4,
-   44,
+   45,
    2,
    "INT"
   ],
   [
-   73,
+   77,
    40,
    5,
-   44,
+   45,
    3,
    "INT"
   ],
   [
-   74,
+   78,
+   41,
+   4,
+   45,
+   4,
+   "INT"
+  ],
+  [
+   79,
    8,
    0,
-   45,
-   0,
-   "MODEL"
-  ],
-  [
-   75,
-   45,
-   0,
    46,
    0,
    "MODEL"
   ],
   [
-   76,
+   80,
    46,
    0,
    47,
@@ -3169,98 +3316,114 @@
    "MODEL"
   ],
   [
-   77,
-   44,
-   0,
+   81,
    47,
+   0,
+   48,
+   0,
+   "MODEL"
+  ],
+  [
+   82,
+   45,
+   0,
+   48,
    1,
    "CONDITIONING"
   ],
   [
-   78,
+   83,
    40,
    2,
-   50,
+   51,
    0,
    "H3_FACE_ATLAS"
   ],
   [
-   79,
-   48,
+   84,
+   49,
    0,
-   51,
+   52,
    0,
    "NOISE"
   ],
   [
-   80,
-   47,
+   85,
+   48,
    0,
-   51,
+   52,
    1,
    "GUIDER"
   ],
   [
-   81,
-   49,
+   86,
+   50,
    0,
-   51,
+   52,
    2,
    "SAMPLER"
   ],
   [
-   82,
-   50,
-   0,
+   87,
    51,
+   0,
+   52,
    3,
    "SIGMAS"
   ],
   [
-   83,
-   43,
+   88,
+   44,
    0,
-   51,
+   52,
    4,
    "LATENT"
   ],
   [
-   84,
-   51,
-   0,
+   89,
    52,
+   0,
+   53,
    0,
    "LATENT"
   ],
   [
-   85,
+   90,
    4,
    0,
-   52,
+   53,
    1,
    "VAE"
   ],
   [
-   86,
+   91,
+   41,
+   3,
+   53,
+   2,
+   "H3_FACE_COMPACT"
+  ],
+  [
+   92,
    37,
    0,
-   53,
+   54,
    0,
    "IMAGE"
   ],
   [
-   87,
-   52,
-   0,
+   93,
    53,
+   0,
+   54,
    1,
    "IMAGE"
   ],
   [
-   88,
+   94,
    40,
    2,
-   53,
+   54,
    2,
    "H3_FACE_ATLAS"
   ]
